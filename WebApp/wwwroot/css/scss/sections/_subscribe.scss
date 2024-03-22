@@ -1,0 +1,231 @@
+// #subscribe {
+//     background-color: $gray-100;
+//     margin-top: 80px;
+
+//     .container {
+//         position: relative;
+        
+//         @include lg {
+//             padding: 60px 200px 70px 200px;;
+//         }
+
+//         img {
+//             position: absolute;
+//             right: 10%;
+//             top: 25%;
+//             display: none;
+
+//             @include lg {
+//                 position: absolute;
+//                 right: 25%;
+//                 top: 18%;
+//                 display: block;
+//             }
+
+//             @include xl {
+//                 position: absolute;
+//                 right: 22%;
+//                 top: 18%;
+//             }
+
+//             @include xxl {
+//                 position: absolute;
+//                 right: 32%;
+//                 top: 18%;
+//             }
+
+//         }
+
+//         .grid-box {
+//             display: grid;
+//             flex-grow: 1;
+//             align-items: center;
+//             grid-template-columns: repeat(2, 1fr);
+//             padding-top: 40px;
+//             padding-bottom: 40px;
+//             gap: 10px;
+
+//             @include xl {
+//                 grid-template-columns: repeat(4, 1fr);
+//             }
+
+//             h5 {
+//                 grid-area: 1/1/1/3;
+
+//                 @include xl {
+//                     grid-area: 1/1/3/2;
+//                 }
+//             }
+
+//            input {
+//             margin-right: 10px;
+//            }
+//         }
+
+//         .subscribe-here {
+//             display: flex;
+//             flex-direction: column;
+//             align-items: center;
+//             justify-content: space-between;
+//             gap: 20px;
+            
+
+//             @include lg {
+//                 display: flex;
+//                 flex-direction: row;
+//                 gap: 0px;
+//             }
+
+//             input {
+//                 flex: 1;
+//                 margin-bottom: 0px;
+//                 border: 1px solid $gray-500;
+//                 color: $gray-500;
+//                 padding: 5px 20px;
+//                 font-weight: 600;
+//                 font-size: 16px;
+//                 border-radius: 10px;
+
+//                 @include lg {
+//                     margin-right: 10px;
+//                 }    
+//             }
+//         }
+
+//         .terms {
+//             display: flex;
+//             justify-content: center;
+//             padding: 20px;
+
+//             @include lg {
+//                 display: flex;
+//                 justify-content: start;
+//             }
+//         }
+//     }
+// }
+
+
+#subscribe {
+    background-color: $gray-100;
+    margin-top: 80px;
+
+    .container {
+        position: relative;
+
+        @include lg {
+            padding: 60px 200px 70px 200px;;
+        }
+
+        img {
+            position: absolute;
+            right: 10%;
+            top: 25%;
+            display: none;
+
+            @include lg {
+                position: absolute;
+                right: 25%;
+                top: 18%;
+                display: block;
+            }
+
+            @include xl {
+                position: absolute;
+                right: 22%;
+                top: 18%;
+            }
+
+            @include xxl {
+                position: absolute;
+                right: 32%;
+                top: 18%;
+            }
+        }
+
+        .grid-box {
+            display: grid;
+            flex-grow: 1;
+            align-items: center;
+            grid-template-columns: repeat(2, 1fr);
+            padding-top: 40px;
+            padding-bottom: 40px;
+            gap: 10px;
+
+            @include xl {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            h5 {
+                grid-area: 1/1/1/3;
+
+                @include xl {
+                    grid-area: 1/1/3/2;
+                }
+            }
+
+            input {
+                margin-right: 10px;
+            }
+        }
+
+        .subscribe-here {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            @include lg {
+                display: flex;
+                flex-direction: row;
+                gap: 0px;
+            }
+
+            .email-wrapper {
+                position: relative;
+                display: flex;
+                flex: 1;
+            }
+
+            .fa-envelope {
+                position: absolute;
+                color: $gray-600;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            input[type="text"] {
+                flex: 1;
+                margin-bottom: 0px;
+                border: 1px solid $gray-500;
+                // color: $gray-200;
+                padding: 5px 40px;
+                font-weight: 600;
+                font-size: 16px;
+                border-radius: 5px;
+
+                @include lg {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .terms {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+
+            @include lg {
+                display: flex;
+                justify-content: start;
+            }
+        }
+
+        .information {
+            display: inline-flex;
+            margin-top: 20px;
+        }
+    }
+}

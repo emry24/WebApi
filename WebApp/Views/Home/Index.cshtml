@@ -1,0 +1,102 @@
+﻿@* <a asp-action="Index" asp-controller="Courses">Courses</a>
+<br />
+<a asp-action="Index" asp-controller="Subscribers">Subscribe</a> *@
+
+
+
+@* @using Infrastructure.Entities *@
+@using WebApp.Models
+@model SubscribeViewModel
+
+@{
+    ViewData["Title"] = "Subscribe";
+}
+
+
+<section id="subscribe">
+    <div class="container">
+        <h1>Don't Want To Miss Anything?</h1>
+        <img src="~/images/icons/curly-arrows.svg" alt="">
+        <form asp-action="Index" asp-controller="Home" onsubmit="return validateForm()" method="post">
+            <div class="grid-box">
+                <h5>Sign up for Newsletters</h5>
+                <div>
+                    <input asp-for="DailyNewsletter">
+                    <label asp-for="DailyNewsletter"></label>
+                </div>
+                <div>
+                    <input asp-for="AdvertisingUpdates">
+                    <label asp-for="AdvertisingUpdates"></label>
+                </div>
+                <div>
+                    <input asp-for="WeekInReview">
+                    <label asp-for="WeekInReview"></label>
+                </div>
+                <div>
+                    <input asp-for="EventUpdates">
+                    <label asp-for="EventUpdates"></label>
+                </div>
+                <div>
+                    <input asp-for="StartUpsWeekly">
+                    <label asp-for="StartUpsWeekly"></label>
+                </div>
+                <div>
+                    <input asp-for="Podcasts">
+                    <label asp-for="Podcasts"></label>
+                </div>
+            </div>
+            <div class="subscribe-here">
+                <div class="email-wrapper">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input asp-for="Email">
+                </div>
+                <button class="btn-theme" type="submit">Subscribe *</button>
+            </div>
+
+        </form>
+        <span class="information">
+            @if (ViewData["Status"]?.ToString() == "Success")
+            {
+                <span class="alert alert-success">
+                    You have been subscribed
+                </span>
+            }
+            else if (ViewData["Status"]?.ToString() == "AlreadyExists")
+            {
+                <span class="alert alert-warning">
+                    You have already been subscribed
+                </span>
+            }
+            else if (ViewData["Status"]?.ToString() == "Invalid")
+            {
+                <span class="alert alert-danger">
+                    You must enter a valid email address
+                </span>
+            }
+            else if (ViewData["Status"]?.ToString() == "ConnectionFailed")
+            {
+                <span class="alert alert-danger">
+                    Unable to connect to the server.Please try again later.
+                </span>
+            }
+            else if (ViewData["Status"]?.ToString() == "Unauthorized")
+            {
+                <span class="alert alert-danger">
+                    Something went wrong. Please contact web admin.
+                </span>
+            }
+            else if (ViewData["Status"] != null && ViewData["Status"]!.ToString() == "AtLeastOneCheckboxRequired")
+            {
+                <div class="alert alert-danger" role="alert">
+                    Please select at least one checkbox.
+                </div>
+            }
+            else
+            {
+                <div class="terms">
+                    <label><input type="checkbox" name="terms" required> *Yes, I agree to the <a href="">terms</a> and <a href="">privacy policy.</a></label>
+                </div>
+            }
+        </span>
+    </div>
+</section>

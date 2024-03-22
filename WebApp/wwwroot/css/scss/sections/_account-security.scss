@@ -1,0 +1,143 @@
+#account-security {
+    display: block;
+    gap: 150px;
+    margin-bottom: 70px;
+
+    @include lg {
+        display: grid;
+        grid-template-columns: 2fr 5fr;
+    }
+
+    aside {
+        border-right: 1px solid $gray-300;
+        padding-right: 20px;
+
+
+        .profile-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                position: relative;
+                z-index: 1;
+            }
+
+            a {
+                position: absolute;
+                z-index: 2;
+                bottom: 0%;
+                right: 40%;
+                background-color: white;
+                border: 1px solid $gray-300;
+                padding: 2px 8px;
+                border-radius: 50%;
+
+                @include md {
+                    right: 40%;
+                }
+
+                @include lg {
+                    right: 25%;
+                }
+
+                @include xl {
+                    right: 30%;
+                }
+            }
+        }
+
+        .profile-info {
+            margin: 20px;
+            text-align: center;
+
+            h5 {
+                margin-top: 15px;
+                margin-bottom: 0px;
+            }
+
+            p {
+                @include text-s;
+            }
+        }
+
+        nav {
+            margin-top: 50px;
+            text-align: left;
+
+            a {
+                margin: 10px 0;
+                text-align: left;
+                justify-content: flex-start;
+            }
+
+            .btn-theme-s {
+                text-align: left;
+                justify-content: flex-start;
+            }
+        }
+    }
+
+    .security {
+        margin-top: 50px;
+        width: 100%;
+
+        .security-info {
+
+            form {
+                padding: 1rem;
+
+                h5 {
+                    color: $theme;
+                }
+
+                .content {
+                    display: grid;
+                    gap: 1rem 2rem;
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-areas: "current current" "new new" "confirm confirm" "buttons buttons";
+
+                    #form-password {
+                        grid-area: current;
+                    }
+
+                    #form-new {
+                        grid-area: new;
+                    }
+
+                    #form-confirm {
+                        grid-area: confirm;
+                    }
+
+                    #form-buttons {
+                        grid-area: buttons;
+                        margin: 20px 0;
+                        display: flex;
+                        gap: 20px;
+                    }
+
+                    @include lg {
+                        grid-template-columns: 1fr 1fr;
+                        grid-template-areas: "current none" "new confirm" "buttons buttons";
+                    }
+                }
+            }
+
+            .delete-account {
+                padding-left: 18px;
+                h5 {
+                    color: $theme;
+                }
+
+                button {
+                    margin-top: 30px;
+                    padding: 9px 25px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

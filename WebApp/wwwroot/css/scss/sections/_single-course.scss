@@ -1,0 +1,301 @@
+#course-showcase {
+    position: relative;
+    overflow: hidden;
+
+    span {
+        color: $gray-500;
+    }
+
+
+    .background-image {
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100%;
+        background-size: cover;
+        z-index: -1;
+        overflow: hidden;
+        max-width: none;
+
+        @include xxl {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        margin-top: 60px;
+
+        h1 {
+            color: $white;
+        }
+
+        p {
+            color: $white;
+        }
+
+        .courses-bread {
+            color: $white;
+            margin-bottom: 70px;
+
+            a {
+                color: $white;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            padding-bottom: 10px;
+
+            .btn {
+                padding: 0px 12px
+            }
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 100px;
+
+            @include lg {
+                flex-direction: row;
+            }
+
+            p {
+                padding-left: 10px;
+                margin-bottom: 0;
+            }
+
+            @include lg {
+                .line::after {
+
+                    content: '';
+                    display: inline-flex;
+                    width: 1px;
+                    height: 15px;
+                    background-color: $white;
+                    margin-left: 25px;
+                    margin-right: 25px;
+                }
+            }
+
+            .reviews {
+                display: flex;
+                flex-direction: row;
+                margin-top: 40px;
+                margin-bottom: 20px;
+
+                @include lg {
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                }
+            }
+
+            .likes-hours {
+                display: flex;
+                gap: 20px;
+
+                @include lg {
+                    gap: 0;
+                }
+
+                i {
+                    display: flex;
+                    flex-direction: row;
+                    color: $white;
+                    align-items: center;
+                }
+            }
+
+        }
+
+        .creator {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 100px;
+
+            p {
+                margin-bottom: 0;
+                margin-left: 16px;
+            }
+
+            .text-lg {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+#single-course {
+
+    .container {
+        margin-top: 60px;
+        h1 {
+            color: $black;
+        }
+
+        p {
+            color: $black;
+        }
+
+        .course-description {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+
+            @include xl {
+                flex-direction: row;
+                gap: 0;
+            }
+
+            .description {
+                padding-right: 100px;
+
+                .check-list {
+                    padding-top: 30px;
+
+                    .checked {
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            margin-bottom: 16px;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+            }
+
+            .specifications {
+                width: 100%;
+                border: 1px solid $gray-400;
+                padding: 40px;
+
+                .included {
+                    display: flex;
+                    flex-direction: row;
+
+                    p {
+                        color: $gray-700;
+                    }
+
+                    img {
+                        margin-bottom: 16px;
+                        margin-right: 10px;
+                    }
+                }
+
+                .price {
+                    display: flex;
+                    gap: 10px;
+                    padding: 10px;
+
+                    .text-xl {
+                        color: $gray-700;
+                        text-decoration: line-through;
+                    }
+                }
+            }
+        }
+
+        .program-details {
+            width: 100%;
+            margin-top: 60px;
+
+            @include xl {
+                width: 60%;
+            }
+
+            .list-item {
+                display: flex;
+                flex-direction: row;
+                margin-top: 30px;
+
+                .list-number {
+                    height: 80px;
+                    width: 80px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $gray-800;
+                    background-color: $white;
+                    border-radius: 50%;
+                    border: 13px solid $gray-100;
+
+                    h4 {
+                        margin: 30px;
+                    }
+                }
+
+                .list-info {
+                    padding-left: 30px;
+                }
+            }
+        }
+    }
+}
+
+#creator-presentation {
+    margin-top: 80px;
+    margin-bottom: 40px;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        @include lg {
+            width: 50%;
+        }
+
+        @include xl {
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .creator-text {
+            padding: 10px;
+            background-color: $gray-900;
+
+            @include lg {
+                padding: 80px;  
+            }
+
+            h1 {
+                color: $white;
+            }
+
+            p {
+                color: $gray-600; 
+            }
+
+            .media-buttons {
+                
+                .btn {
+                    padding: 8px 25px;
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+                }
+
+                .btn-info {
+                    color: $white;
+                    background-color:rgb(60, 120, 233);
+                    border: rgb(60, 120, 233);
+                }
+
+                i {
+                    padding-right: 8px;
+                }
+            }
+        }
+    }
+}
