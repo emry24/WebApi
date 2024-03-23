@@ -18,17 +18,17 @@ public class SubscriberEntity
     public bool StartUpsWeekly { get; set; } = false;
     public bool Podcasts { get; set; } = false;
 
-    public static implicit operator SubscriberEntity(SubscriberDto dto)
-    {
-        return new SubscriberEntity
-        {
-            Email = dto.Email,
-            DailyNewsletter = dto.DailyNewsletter,
-            AdvertisingUpdates = dto.AdvertisingUpdates,
-            WeekInReview = dto.WeekInReview,
-            EventUpdates = dto.EventUpdates,
-            StartUpsWeekly = dto.StartUpsWeekly,
-            Podcasts = dto.Podcasts
-        };
-    }
+    //public static implicit operator SubscriberEntity(SubscriberDto dto)
+    //{
+    //    return new SubscriberEntity
+    //    {
+    //        Email = dto.Email,
+    //        DailyNewsletter = dto.DailyNewsletter,
+    //        AdvertisingUpdates = dto.AdvertisingUpdates,
+    //        WeekInReview = dto.WeekInReview,
+    //        EventUpdates = dto.EventUpdates,
+    //        StartUpsWeekly = dto.StartUpsWeekly,
+    //        Podcasts = dto.Podcasts
+    //    };
+    //}
 }

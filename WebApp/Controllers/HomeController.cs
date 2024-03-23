@@ -59,15 +59,15 @@ public class HomeController(HttpClient http) : Controller
         return View(viewModel);
     }
 
-    [Route("/details")]
-    public async Task<IActionResult> Details()
-    {
-        using var http = new HttpClient();
-        var response = await http.GetAsync("https://localhost:7279/api/courses/1");
-        var json = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<CourseEntity>(json);
+    //[Route("/details")]
+    //public async Task<IActionResult> Details()
+    //{
+    //    using var http = new HttpClient();
+    //    var response = await http.GetAsync("https://localhost:7279/api/courses/1");
+    //    var json = await response.Content.ReadAsStringAsync();
+    //    var data = JsonConvert.DeserializeObject<CourseEntity>(json);
 
-        return View(data);
-    }
+    //    return View(data);
+    //}
 
 }

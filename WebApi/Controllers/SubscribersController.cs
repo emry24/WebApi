@@ -28,7 +28,7 @@ public class SubscribersController(AppDbContext context) : Controller
             {
                 try
                 {
-                    _context.Subscribers.Add(dto);
+                    //_context.Subscribers.Add(dto);
                     await _context.SaveChangesAsync();
 
                     return Created("", null);
