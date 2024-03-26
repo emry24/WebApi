@@ -2,12 +2,12 @@
 
 namespace Infrastructure.Entities;
 
-public class Category
+public class CategoryEntity
 {
-    //[Key]
+    [Key]
     public int CategoryId { get; set; }
 
     public string CategoryName { get; set; } = null!;
 
-    public List<Course>? Courses { get; set; }
+    public List<CourseEntity>? Courses { get; set; }
 }

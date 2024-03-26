@@ -4,16 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entities;
 
-public class ProgramDetails
+public class ProgramDetailsEntity
 {
     [Key]
     public int SectionId { get; set; }
 
-    [ForeignKey("Course")]
+    [ForeignKey(nameof(Course))]
     public int CourseId { get; set; }
-    public int SectionNumber { get; set; }
-    public string SectionTitle { get; set; } = null!;
-    public string? SectionDescription { get; set; }
 
-    public Course? Course { get; set; }
+    public int ProgramDetailsNumber { get; set; }
+    public string ProgramDetailsTitle { get; set; } = null!;
+    public string? ProgramDetailsDescription { get; set; }
+    public CourseEntity? Course { get; set; }
 }

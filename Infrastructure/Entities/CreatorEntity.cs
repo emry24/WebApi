@@ -3,16 +3,16 @@
 
 namespace Infrastructure.Entities;
 
-public class Creator
+public class CreatorEntity
 {
-    //[Key]
+    [Key]
     public int CreatorId { get; set; }
 
-    public string Name { get; set; } = null!;
-    public string? Bio { get; set; }
-    public int YoutubeSubscribers { get; set; }
-    public int FacebookFollowers { get; set; }
-    public string? ProfileImage { get; set; }
+    public string CreatorName { get; set; } = null!;
+    public string? CreatorBio { get; set; }
+    public string? YoutubeSubscribers { get; set; }
+    public string? FacebookFollowers { get; set; }
+    public string? CreatorImage { get; set; }
 
-    public List<Course>? Courses { get; set; }
+    public List<CourseEntity>? Courses { get; set; }
 }

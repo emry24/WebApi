@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Entities;
 
-public class LearningDetails
+public class LearningDetailsEntity
 {
     [Key]
     public int LearningsId { get; set; }
 
-    [ForeignKey("Course")]
+    [ForeignKey(nameof(Course))]
     public int CourseId { get; set; }
 
-    public string Description { get; set; } = null!;
+    public string LearningsDescription { get; set; } = null!;
 
-    public Course? Course { get; set; }
+    public CourseEntity? Course { get; set; }
 }

@@ -29,11 +29,11 @@ namespace Infrastructure.Migrations
                 {
                     CreatorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    YoutubeSubscribers = table.Column<int>(type: "int", nullable: false),
-                    FacebookFollowers = table.Column<int>(type: "int", nullable: false),
-                    ProfileImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatorBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YoutubeSubscribers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FacebookFollowers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatorImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,9 +68,10 @@ namespace Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ingress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsBestseller = table.Column<bool>(type: "bit", nullable: false),
-                    Reviews = table.Column<int>(type: "int", nullable: false),
+                    Reviews = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RatingImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Likes = table.Column<int>(type: "int", nullable: false),
+                    LikesInProcent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LikesInNumbers = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DurationHours = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatorId = table.Column<int>(type: "int", nullable: false),
@@ -125,7 +126,7 @@ namespace Infrastructure.Migrations
                     LearningsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LearningsDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -145,9 +146,9 @@ namespace Infrastructure.Migrations
                     SectionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    SectionNumber = table.Column<int>(type: "int", nullable: false),
-                    SectionTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SectionDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ProgramDetailsNumber = table.Column<int>(type: "int", nullable: false),
+                    ProgramDetailsTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProgramDetailsDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

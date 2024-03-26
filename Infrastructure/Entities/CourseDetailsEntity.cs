@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entities
 {
-    public class CourseDetails
+    public class CourseDetailsEntity
     {
         [Key]
         public int CourseDetailsId { get; set; }
 
-        [ForeignKey("Course")]
+        [ForeignKey(nameof(Course))]
         public int CourseId { get; set; }
 
         public int NumberOfArticles { get; set; }
@@ -20,6 +20,6 @@ namespace Infrastructure.Entities
         public decimal Price { get; set; }
         public decimal DiscountedPrice { get; set; }
 
-        public Course? Course { get; set; }
+        public CourseEntity? Course { get; set; }
     }
 }

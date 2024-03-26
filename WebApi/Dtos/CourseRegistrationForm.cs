@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Dtos;
 
@@ -6,11 +7,103 @@ public class CourseRegistrationForm
 {
     [Required]
     public string Title { get; set; } = null!;
-    public string? Price { get; set; }
-    public string? DiscountPrice { get; set; }
-    public string? Hours { get; set; }
-    public bool IsBestseller { get; set; } = false;
-    public string? LikesInNumbers { get; set; }
+    public string? Ingress { get; set; }
+    public bool IsBestseller { get; set; }
+    public string? Reviews { get; set; }
+    public string? RatingImage { get; set; }
     public string? LikesInProcent { get; set; }
-    public string? Author { get; set; }
+
+    public string? LikesInNumbers { get; set; }
+    public int DurationHours { get; set; }
+    public string? Description { get; set; }
+
+    public int NumberOfArticles { get; set; }
+    public int NumberOfResources { get; set; }
+    public bool LifetimeAccess { get; set; }
+    public bool Certificate { get; set; }
+    public decimal Price { get; set; }
+    public decimal DiscountedPrice { get; set; }
+
+
+    //public string LearningsDescription { get; set; } = null!;
+    //public int ProgramDetailsNumber { get; set; }
+    //public string ProgramDetailsTitle { get; set; } = null!;
+    //public string? ProgramDetailsDescription { get; set; }
+
+
+    public string CategoryName { get; set; } = null!;
+
+    public string CreatorName { get; set; } = null!;
+    public string? CreatorBio { get; set; }
+    public string? YoutubeSubscribers { get; set; }
+    public string? FacebookFollowers { get; set; }
+    public string? CreatorImage { get; set; }
+
+    public static implicit operator CourseEntity(CourseRegistrationForm form)
+    {
+        return new CourseEntity
+        {
+            Title = form.Title,
+            Ingress = form.Ingress,
+            IsBestseller = form.IsBestseller,
+            Reviews = form.Reviews,
+            RatingImage = form.RatingImage,
+            LikesInProcent = form.LikesInProcent,
+            LikesInNumbers = form.LikesInNumbers,
+            DurationHours = form.DurationHours,
+            Description = form.Description
+        };
+    }
+
+    public static implicit operator CourseDetailsEntity(CourseRegistrationForm form)
+    {
+        return new CourseDetailsEntity
+        {
+            NumberOfArticles = form.NumberOfArticles,
+            NumberOfResources = form.NumberOfResources,
+            LifetimeAccess = form.LifetimeAccess,
+            Certificate = form.Certificate,
+            Price = form.Price,
+            DiscountedPrice = form.DiscountedPrice
+        };
+    }
+
+    public static implicit operator CategoryEntity(CourseRegistrationForm form)
+    {
+        return new CategoryEntity
+        {
+            CategoryName = form.CategoryName
+        };
+    }
+
+    public static implicit operator CreatorEntity(CourseRegistrationForm form)
+    {
+        return new CreatorEntity
+        {
+            CreatorName = form.CreatorName,
+            CreatorBio = form.CreatorBio,
+            YoutubeSubscribers = form.YoutubeSubscribers,
+            FacebookFollowers = form.FacebookFollowers,
+            CreatorImage = form.CreatorImage
+        };
+    }
+
+    //public static implicit operator LearningDetailsEntity(CourseRegistrationForm form)
+    //{
+    //    return new LearningDetailsEntity
+    //    {
+    //        LearningsDescription = form.LearningsDescription
+    //    };
+    //}
+
+    //public static implicit operator ProgramDetailsEntity(CourseRegistrationForm form)
+    //{
+    //    return new ProgramDetailsEntity
+    //    {
+    //        ProgramDetailsNumber = form.ProgramDetailsNumber,
+    //        ProgramDetailsTitle = form.ProgramDetailsTitle,
+    //        ProgramDetailsDescription = form.ProgramDetailsDescription
+    //    };
+    //}
+
 }

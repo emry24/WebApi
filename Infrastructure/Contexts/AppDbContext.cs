@@ -7,64 +7,63 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
 
     public virtual DbSet<SubscriberEntity> Subscribers { get; set; }
-    public virtual DbSet<Creator> Creators { get; set; }
-    public virtual DbSet<Course> Courses { get; set; }
-    public virtual DbSet<CourseDetails> CourseDetails { get; set; }
-    public virtual DbSet<ProgramDetails> ProgramDetails { get; set; }
-    public virtual DbSet<LearningDetails> LearningDetails { get; set; }
-    public virtual DbSet<Category> Categories { get; set; }
-
-    //public DbSet<Tag> Tags { get; set; }
-    //public DbSet<CourseTag> CourseTags { get; set; }
+    public virtual DbSet<CreatorEntity> Creators { get; set; }
+    public virtual DbSet<CourseEntity> Courses { get; set; }
+    public virtual DbSet<CourseDetailsEntity> CourseDetails { get; set; }
+    public virtual DbSet<ProgramDetailsEntity> ProgramDetails { get; set; }
+    public virtual DbSet<LearningDetailsEntity> LearningDetails { get; set; }
+    public virtual DbSet<CategoryEntity> Categories { get; set; }
+    //public virtual DbSet<TagEntity> Tags { get; set; }
+    //public virtual DbSet<CourseTagEntity> CourseTags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Course>()
+        modelBuilder.Entity<CourseEntity>()
             .HasOne(x => x.Creator)
             .WithMany(x => x.Courses)
             .HasForeignKey(x => x.CreatorId);
 
-        modelBuilder.Entity<Course>()
+        modelBuilder.Entity<CourseEntity>()
             .HasOne(x => x.Category)
             .WithMany(x => x.Courses)
             .HasForeignKey(x => x.CategoryId);
 
-            modelBuilder.Entity<CourseDetails>()
-            .HasKey(cd => cd.CourseDetailsId);
+        modelBuilder.Entity<CourseDetailsEntity>()
+            .HasKey(x => x.CourseDetailsId);
 
-        modelBuilder.Entity<Course>()
+        modelBuilder.Entity<CourseEntity>()
             .HasOne(x => x.Details)
             .WithOne(x => x.Course)
-            .HasForeignKey<CourseDetails>(x => x.CourseId);
+            .HasForeignKey<CourseDetailsEntity>(x => x.CourseId);
 
-        modelBuilder.Entity<ProgramDetails>()
+        modelBuilder.Entity<ProgramDetailsEntity>()
             .HasOne(x => x.Course)
             .WithMany(x => x.ProgramDetails)
             .HasForeignKey(x => x.CourseId);
 
-        modelBuilder.Entity<LearningDetails>()
+        modelBuilder.Entity<LearningDetailsEntity>()
             .HasOne(x => x.Course)
             .WithMany(x => x.LearningDetails)
             .HasForeignKey(x => x.CourseId);
 
-        modelBuilder.Entity<CourseDetails>()
+        modelBuilder.Entity<CourseDetailsEntity>()
             .Property(x => x.Price)
             .HasColumnType("decimal(18, 2)");
 
-        modelBuilder.Entity<CourseDetails>()
+        modelBuilder.Entity<CourseDetailsEntity>()
             .Property(x => x.DiscountedPrice)
             .HasColumnType("decimal(18, 2)");
 
 
-        //modelBuilder.Entity<CourseTag>()
+        //modelBuilder.Entity<CourseTagEntity>()
         //    .HasKey(ct => new { ct.CourseId, ct.TagId });
 
-        //modelBuilder.Entity<CourseTag>()
+        //modelBuilder.Entity<CourseTagEntity>()
         //    .HasOne(ct => ct.Course)
-        //    .WithMany(c => c.CourseTags)
+        //    .WithMany(c => c.Tags)
         //    .HasForeignKey(ct => ct.CourseId);
 
-        //modelBuilder.Entity<CourseTag>()
+        //modelBuilder.Entity<CourseTagEntity>()
         //    .HasOne(ct => ct.Tag)
         //    .WithMany()
         //    .HasForeignKey(ct => ct.TagId);

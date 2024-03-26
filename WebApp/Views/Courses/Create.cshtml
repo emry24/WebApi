@@ -1,39 +1,104 @@
-﻿@using WebApp.Models
+﻿@* @using WebApp.Models
 @model CourseRegistrationFormViewModel
 
-<form asp-action="Create" asp-controller="Courses" method="post">
-    <div>
-        <label asp-for="Title"></label>
-        <input asp-for="Title" />
-    </div>
-    <div>
-        <label asp-for="Price"></label>
-        <input asp-for="Price" />
-    </div>
-    <div>
-        <label asp-for="DiscountPrice"></label>
-        <input asp-for="DiscountPrice" />
-    </div>
-    <div>
-        <label asp-for="LikesInNumbers"></label>
-        <input asp-for="LikesInNumbers" />
-    </div>
-    <div>
-        <label asp-for="LikesInProcent"></label>
-        <input asp-for="LikesInProcent" />
-    </div>
-    <div>
-        <label asp-for="Hours"></label>
-        <input asp-for="Hours" />
-    </div>
-    <div>
-        <label asp-for="Author"></label>
-        <input asp-for="Author" />
-    </div>
-    <div>
-        <label asp-for="IsBestseller"></label>
-        <input asp-for="IsBestseller" />
-    </div>
+<section id="create-course">
+    <div class="container">
+        <form asp-action="Create" asp-controller="Courses" method="post">
+            <div class="input-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" />
+            </div>
+            <div class="input-group">
+                <label asp-for="Ingress"></label>
+                <input asp-for="Ingress" />
+            </div>
+            <div class="checkbox-group">
+                <label asp-for="IsBestseller"></label>
+                <input asp-for="IsBestseller" />
+            </div>
+            <div class="input-group">
+                <label asp-for="Reviews"></label>
+                <input asp-for="Reviews" />
+            </div>
+            <div class="input-group">
+                <label asp-for="RatingImage"></label>
+                <input asp-for="RatingImage" />
+            </div>
+            <div class="input-group">
+                <label asp-for="LikesInProcent"></label>
+                <input asp-for="LikesInProcent" />
+            </div>
+            <div class="input-group">
+                <label asp-for="LikesInNumbers"></label>
+                <input asp-for="LikesInNumbers" />
+            </div>
+            <div class="input-group">
+                <label asp-for="DurationHours"></label>
+                <input asp-for="DurationHours" />
+            </div>
+            <div class="input-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" />
+            </div>
+            <div class="input-group">
+                <label asp-for="NumberOfArticles"></label>
+                <input asp-for="NumberOfArticles" />
+            </div>
+            <div class="input-group">
+                <label asp-for="NumberOfResources"></label>
+                <input asp-for="NumberOfResources" />
+            </div>
+            <div class="checkbox-group">
+                <label asp-for="LifetimeAccess"></label>
+                <input asp-for="LifetimeAccess" />
+            </div>
+            <div class="checkbox-group">
+                <label asp-for="Certificate"></label>
+                <input asp-for="Certificate" />
+            </div>
+            <div class="input-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" />
+            </div>
+            <div class="input-group">
+                <label asp-for="DiscountedPrice"></label>
+                <input asp-for="DiscountedPrice" />
+            </div>
+            
+            //public string LearningsDescription { get; set; } = null!;
+            //public int ProgramDetailsNumber { get; set; }
+            //public string ProgramDetailsTitle { get; set; } = null!;
+            //public string? ProgramDetailsDescription { get; set; }
 
-    <button type="submit">CREATE</button>
-</form>
+            <div class="input-group">
+                <label asp-for="CategoryName"></label>
+                <input asp-for="CategoryName" />
+            </div>
+            <div class="input-group">
+                <label asp-for="CreatorName"></label>
+                <input asp-for="CreatorName" />
+            </div>
+            <div class="input-group">
+                <label asp-for="CreatorBio"></label>
+                <input asp-for="CreatorBio" />
+            </div>
+            <div class="input-group">
+                <label asp-for="YoutubeSubscribers"></label>
+                <input asp-for="YoutubeSubscribers" />
+            </div>
+            <div class="input-group">
+                <label asp-for="FacebookFollowers"></label>
+                <input asp-for="FacebookFollowers" />
+            </div>
+            <div class="input-group">
+                <label asp-for="CreatorImage"></label>
+                <input asp-for="CreatorImage" />
+            </div>
+
+            <button type="submit">CREATE</button>
+
+        </form>
+    </div>
+</section> *@
+
+

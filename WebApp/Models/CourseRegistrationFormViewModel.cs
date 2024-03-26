@@ -5,27 +5,74 @@ namespace WebApp.Models;
 public class CourseRegistrationFormViewModel
 {
     [Required]
-    [Display(Name ="Title")]
+
+    [Display(Name = "Title")]
     public string Title { get; set; } = null!;
 
-    [Display(Name = "Price")]
-    public string? Price { get; set; }
+    [Display(Name = "Ingress")]
+    public string? Ingress { get; set; }
 
-    [Display(Name = "Discount Price")]
-    public string? DiscountPrice { get; set; }
+    [Display(Name = "Bestseller")]
+    public bool IsBestseller { get; set; }
 
-    [Display(Name = "Hours")]
-    public string? Hours { get; set; }
+    [Display(Name = "Reviews")]
+    public string? Reviews { get; set; }
 
-    [Display(Name = "Is a bestseller")]
-    public bool IsBestseller { get; set; } = false;
+    [Display(Name = "Rating image")]
+    public string? RatingImage { get; set; }
 
-    [Display(Name = "Likes in Numbers")]
-    public string? LikesInNumbers { get; set; }
-
-    [Display(Name = "Likes in Procent")]
+    [Display(Name = "Likes in procent")]
     public string? LikesInProcent { get; set; }
 
-    [Display(Name = "Author(s)")]
-    public string? Author { get; set; }
+    [Display(Name = "Likes in numbers")]
+    public string? LikesInNumbers { get; set; }
+
+    [Display(Name = "Duration hours")]
+    public int DurationHours { get; set; }
+
+    [Display(Name = "Description")]
+    public string? Description { get; set; }
+
+    [Display(Name = "Number of articles")]
+    public int NumberOfArticles { get; set; }
+
+    [Display(Name = "Number of resources")]
+    public int NumberOfResources { get; set; }
+
+    [Display(Name = "Lifetime access")]
+    public bool LifetimeAccess { get; set; }
+
+    [Display(Name = "Certificate")]
+    public bool Certificate { get; set; }
+
+    [Display(Name = "Price")]
+    public decimal Price { get; set; }
+
+    [Display(Name = "Discount")]
+    public decimal DiscountedPrice { get; set; }
+
+    //public string LearningsDescription { get; set; } = null!;
+    //public int ProgramDetailsNumber { get; set; }
+    //public string ProgramDetailsTitle { get; set; } = null!;
+    //public string? ProgramDetailsDescription { get; set; }
+
+    [Display(Name = "Category")]
+    public string CategoryName { get; set; } = null!;
+
+    [Display(Name = "Creator")]
+    public string CreatorName { get; set; } = null!;
+
+    [Display(Name = "Creator bio")]
+    public string? CreatorBio { get; set; }
+
+    [Display(Name = "Youtube subscribers")]
+    public string? YoutubeSubscribers { get; set; }
+
+    [Display(Name = "Facebook subscribers")]
+    public string? FacebookFollowers { get; set; }
+
+    [Display(Name = "Creator image")]
+    public string? CreatorImage { get; set; }
 }
+
+

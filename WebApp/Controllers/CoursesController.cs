@@ -29,7 +29,7 @@
 //        if (ModelState.IsValid)
 //        {
 //            using var http = new HttpClient();
-   
+
 //            var json = JsonConvert.SerializeObject(viewModel);
 //            using var content = new StringContent(json, Encoding.UTF8, "application/json");
 //            var response = await http.PostAsync("https://localhost:7279/api/courses", content);

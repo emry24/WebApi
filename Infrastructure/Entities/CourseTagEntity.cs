@@ -2,15 +2,15 @@
 
 //namespace Infrastructure.Entities
 //{
-//    public class CourseTag
+//    public class CourseTagEntity
 //    {
-//        [ForeignKey("Course")]
+//        [ForeignKey(nameof(Course))]
 //        public int CourseId { get; set; }
 
-//        [ForeignKey("Tag")]
+//        [ForeignKey(nameof(Tag))]
 //        public int TagId { get; set; }
 
-//        public Course? Course { get; set; }
-//        public Tag? Tag { get; set; }
+//        public CourseEntity? Course { get; set; }
+//        public TagEntity? Tag { get; set; }
 //    }
 //}
