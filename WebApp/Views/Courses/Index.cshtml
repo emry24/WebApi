@@ -1,5 +1,7 @@
-﻿@* @using Infrastructure.Entities
-@model IEnumerable<CourseEntity>
+﻿@using Infrastructure.Entities
+@using WebApi.Models
+@using WebApp.Models
+@model IEnumerable<CourseViewModel>
 
 @{
     ViewData["Title"] = "Courses";
@@ -10,7 +12,93 @@
 <hr />
 <br />
 
-@foreach (var course in Model)
+@* @foreach (var course in Model)
 {
     <div>@course.Title</div>
 } *@
+
+<section class="courses">
+    <div class="container">
+
+        <div class="courses-bread">
+            <a href="#"><i class="fa-regular fa-house me-2"></i>Home</a>
+            <i class="fa-regular fa-angles-right"></i>
+            <a href="#">Courses</a>
+
+        </div>
+
+        <div class="courses-options">
+            <h1 class="pb-3">Courses</h1>
+
+            <div class="forms">
+
+                <select class="form-select">
+                    <option selected>All categories</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search courses"
+                           aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                        <i class="fa-regular fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="courses-grid grid-12">
+            @foreach (var viewModel in Model)
+            {
+                <article class="course-card">
+                    <img class="course-img" src="@viewModel.Course?.RatingImage" alt="">
+                    <!-- <i class="fa-regular fa-bookmark favorite"></i> -->
+                    <button type="button" class="fa-regular fa-bookmark favorite" data-bs-toggle="tooltip"
+                            data-bs-placement="top" data-bs-title="Favorite"></button>
+                    @if (viewModel.Course?.IsBestseller == true)
+                    {
+                        <p class="best-seller text-s">Best Seller</p>
+                    }
+
+
+
+                    <div class="card-text">
+                        <h5>@viewModel.Course?.Title</h5>
+                        <p class="text-s">By @viewModel.Creator?.CreatorName</p>
+                        <p class="text-lg">$@viewModel.Details?.Price</p>
+                        <span class="border border-1"></span>
+
+                        <div class="card-info">
+                            <i class="fa-regular fa-clock">
+                                <p class="text-s">@viewModel.Course?.DurationHours hours</p>
+                            </i>
+                            <i class="fa-regular fa-thumbs-up">
+                                <p class="text-s">@viewModel.Course?.LikesInProcent (@viewModel.Course?.LikesInNumbers)</p>
+                            </i>
+                        </div>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    </div>
+
+</section>
+
+<section class="work-with-us">
+
+    <div class="container grid-12">
+        <div class="content">
+            <p class="text-l">Ready to get started?</p>
+            <h1>Take Your <span class="skills">Skills</span> to the Next Level</h1>
+            <a class="btn-theme-s" href="#">Work with us</a>
+        </div>
+        <img src="images/illustration.svg" alt="">
+    </div>
+
+</section>

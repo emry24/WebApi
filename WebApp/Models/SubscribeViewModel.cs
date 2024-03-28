@@ -24,6 +24,9 @@ public class SubscribeViewModel
     public bool StartUpsWeekly { get; set; } 
 
     [Display(Name = "Podcasts")]
-    public bool Podcasts { get; set; } 
-    //public bool IsSubscribed { get; set; } 
+    public bool Podcasts { get; set; }
+
+    //[Display(Name = "I agree to the Terms & Conditions.>")]
+    //[CheckBoxRequired(ErrorMessage = "You must accept the terms and conditions.")]
+    //public bool IsSubscribed { get; set; } = false;
 }

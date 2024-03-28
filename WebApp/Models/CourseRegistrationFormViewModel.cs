@@ -51,11 +51,6 @@ public class CourseRegistrationFormViewModel
     [Display(Name = "Discount")]
     public decimal DiscountedPrice { get; set; }
 
-    //public string LearningsDescription { get; set; } = null!;
-    //public int ProgramDetailsNumber { get; set; }
-    //public string ProgramDetailsTitle { get; set; } = null!;
-    //public string? ProgramDetailsDescription { get; set; }
-
     [Display(Name = "Category")]
     public string CategoryName { get; set; } = null!;
 
@@ -73,6 +68,35 @@ public class CourseRegistrationFormViewModel
 
     [Display(Name = "Creator image")]
     public string? CreatorImage { get; set; }
+
+
+    //[Display(Name = "Learning Details")]
+    //public List<LearningDetailFormViewModel>? LearningDetails { get; set; }
+
+    //[Display(Name = "Program Details")]
+    //public List<ProgramDetailFormViewModel>? ProgramDetails { get; set; }
 }
+
+//public class LearningDetailFormViewModel
+//{
+//    [Required]
+//    [Display(Name = "Description")]
+//    public string Description { get; set; } = null!;
+//}
+
+//public class ProgramDetailFormViewModel
+//{
+//    [Required]
+//    [Display(Name = "Number")]
+//    public int Number { get; set; }
+
+//    [Required]
+//    [Display(Name = "Title")]
+//    public string Title { get; set; } = null!;
+
+//    [Display(Name = "Description")]
+//    public string? Description { get; set; }
+//}
+
 
 

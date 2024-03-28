@@ -1,4 +1,4 @@
-﻿@* @using WebApp.Models
+﻿@using WebApp.Models
 @model CourseRegistrationFormViewModel
 
 <section id="create-course">
@@ -65,10 +65,39 @@
                 <input asp-for="DiscountedPrice" />
             </div>
             
-            //public string LearningsDescription { get; set; } = null!;
+@*             //public string LearningsDescription { get; set; } = null!;
             //public int ProgramDetailsNumber { get; set; }
             //public string ProgramDetailsTitle { get; set; } = null!;
-            //public string? ProgramDetailsDescription { get; set; }
+            //public string? ProgramDetailsDescription { get; set; } *@
+
+@*             <div class="input-group">
+                <label asp-for="LearningDetails"></label>
+                <div id="learning-details-container">
+                    <div class="learning-detail">
+                        <input type="text" asp-for="LearningDetails![0].Description" />
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeLearningDetail(0)">Remove</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="addLearningDetail()">Add Learning Detail</button>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="ProgramDetails"></label>
+                <div id="program-details-container">
+                    <div class="program-detail">
+                        <p>Number</p>
+                        <input type="number" asp-for="ProgramDetails![0].Number" />
+                        <p>Title</p>
+                        <input type="text" asp-for="ProgramDetails![0].Title" />
+                        <p>Description</p>
+                        <input type="text" asp-for="ProgramDetails![0].Description" />
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeProgramDetail(0)">Remove</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="addProgramDetail()">Add Program Detail</button>
+            </div> *@
+
+
 
             <div class="input-group">
                 <label asp-for="CategoryName"></label>
@@ -95,10 +124,10 @@
                 <input asp-for="CreatorImage" />
             </div>
 
-            <button type="submit">CREATE</button>
+            <button class="btn btn-sm btn-primary" type="submit">CREATE</button>
 
         </form>
     </div>
-</section> *@
+</section>
 
 

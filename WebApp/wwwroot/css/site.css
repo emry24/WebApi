@@ -671,3 +671,192 @@ form span.field-validation-error::after {
   display: inline-flex;
   margin-top: 20px;
 }
+
+.courses {
+  padding: 5rem 0;
+}
+.courses .container .courses-bread {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 10px;
+}
+.courses .container .courses-bread a {
+  color: inherit;
+}
+.courses .container .courses-bread a:nth-child(3) {
+  color: #6366F1;
+}
+.courses .container .courses-bread i {
+  color: #9397AD;
+}
+.courses .container .courses-options {
+  display: flex;
+  flex-direction: column;
+}
+.courses .container .courses-options .forms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .courses .container .courses-options .forms {
+    flex-wrap: nowrap;
+  }
+}
+.courses .container .courses-options .forms select:active, .courses .container .courses-options .forms select:focus, .courses .container .courses-options .forms select:checked {
+  box-shadow: none;
+}
+@media (min-width: 992px) {
+  .courses .container .courses-options {
+    flex-direction: row;
+  }
+  .courses .container .courses-options h1 {
+    flex-grow: 1;
+  }
+}
+.courses .container .courses-options input {
+  border-right: 0;
+  border-color: #D4D7E5;
+}
+.courses .container .courses-options button {
+  border-left: 0;
+  border-color: #D4D7E5;
+}
+.courses .container .courses-grid {
+  padding: 3rem 0;
+  column-gap: 20px;
+  row-gap: 40px;
+}
+.courses .container .courses-grid .course-card {
+  position: relative;
+  grid-column: span 12;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0px 4px 9px -1px rgba(19, 16, 34, 0.03), 0px 4.4px 20px -1px rgba(19, 16, 34, 0.05);
+  z-index: 1;
+}
+.courses .container .courses-grid .course-card .course-img {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  width: 100%;
+  transition: opacity 0.2s ease-in-out;
+}
+.courses .container .courses-grid .course-card .favorite {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #33354D;
+  background-color: #FFFFFF;
+  padding: 12px 14px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+}
+.courses .container .courses-grid .course-card .favorite:hover {
+  background-color: #E2E5F1;
+}
+.courses .container .courses-grid .course-card .best-seller {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  color: #FFFFFF;
+  background-color: #22C55E;
+  border-radius: 6px;
+  padding: 1px 8px;
+}
+.courses .container .courses-grid .course-card .card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 1.5rem 1rem;
+}
+.courses .container .courses-grid .course-card .card-text .text-lg {
+  font-weight: 700;
+  color: #6366F1;
+}
+.courses .container .courses-grid .course-card .card-text .border {
+  border-color: #E2E5F1 !important;
+}
+.courses .container .courses-grid .course-card .card-text .card-info {
+  display: flex;
+  gap: 20px;
+}
+.courses .container .courses-grid .course-card .card-text .card-info i {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #9397AD;
+  padding-top: 5px;
+}
+.courses .container .courses-grid .course-card .card-text .card-info i p {
+  margin-bottom: 0;
+}
+.courses .container .courses-grid .course-card .card-text:hover {
+  text-decoration: none;
+}
+.courses .container .courses-grid .course-card .card-text:hover h5 {
+  text-decoration: underline;
+}
+@media (min-width: 768px) {
+  .courses .container .courses-grid .course-card {
+    grid-column: span 6;
+  }
+}
+@media (min-width: 1200px) {
+  .courses .container .courses-grid .course-card {
+    grid-column: span 4;
+  }
+}
+
+.work-with-us {
+  padding: 5rem 0;
+}
+.work-with-us .container {
+  padding: 2rem 1rem;
+  background-color: #F3F6FF;
+  align-items: center;
+}
+.work-with-us .container .content {
+  grid-column: span 12;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.work-with-us .container .content p {
+  margin: 0;
+}
+.work-with-us .container .content .skills {
+  color: #6366F1;
+}
+@media (min-width: 768px) {
+  .work-with-us .container .content {
+    grid-column: 1/6;
+  }
+}
+@media (min-width: 992px) {
+  .work-with-us .container .content {
+    grid-column: 2/7;
+  }
+  .work-with-us .container .content .btn-theme-s {
+    align-self: flex-start;
+  }
+}
+.work-with-us .container img {
+  grid-column: span 12;
+}
+@media (min-width: 768px) {
+  .work-with-us .container img {
+    grid-column: 7/13;
+  }
+}
+@media (min-width: 992px) {
+  .work-with-us .container img {
+    grid-column: 7/12;
+  }
+}

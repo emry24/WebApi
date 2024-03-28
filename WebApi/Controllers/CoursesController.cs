@@ -3,6 +3,7 @@ using Infrastructure.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using WebApi.Dtos;
 using WebApi.Models;
 
@@ -16,7 +17,6 @@ public class CoursesController(AppDbContext context) : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
-
 
 
     [HttpGet("{id}")]
@@ -44,7 +44,9 @@ public class CoursesController(AppDbContext context) : ControllerBase
                     CategoryName = form.CategoryName,
                 };
 
-                _context.Categories.Add(existingCategory!);
+                _context.Categories.Add(categoryEntity);
+                await _context.SaveChangesAsync();
+                existingCategory = categoryEntity;
             }
 
             var existingCreator = await _context.Creators.FirstOrDefaultAsync(c => c.CreatorName == form.CreatorName);
@@ -59,7 +61,9 @@ public class CoursesController(AppDbContext context) : ControllerBase
                     CreatorImage = form.CreatorImage,
                 };
 
-                _context.Creators.Add(existingCreator!);
+                _context.Creators.Add(creatorEntity);
+                await _context.SaveChangesAsync();
+                existingCreator = creatorEntity;
             }
 
             var courseDetailsEntity = new CourseDetailsEntity
@@ -68,6 +72,7 @@ public class CoursesController(AppDbContext context) : ControllerBase
                 NumberOfResources = form.NumberOfResources,
                 LifetimeAccess = form.LifetimeAccess,
                 Certificate = form.Certificate,
+
                 Price = form.Price,
                 DiscountedPrice = form.DiscountedPrice,
             };
