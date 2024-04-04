@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -9,16 +10,30 @@ using static System.Net.WebRequestMethods;
 
 namespace WebApp.Controllers;
 
-public class CoursesController : Controller
+//[Authorize]
+public class CoursesController(HttpClient http) : Controller
 {
+    private readonly HttpClient _http = http;
+
+    //public async Task<IActionResult> Index()
+    //{
+    //    using var http = new HttpClient();
+    //    var response = await http.GetAsync("https://localhost:7279/api/courses");
+    //    var json = await response.Content.ReadAsStringAsync();
+    //    var data = JsonConvert.DeserializeObject<IEnumerable<CourseEntity>>(json);
+
+    //    return View(data);
+    //}
+
     public async Task<IActionResult> Index()
     {
+        var viewModel = new CourseViewModel();
+
         using var http = new HttpClient();
         var response = await http.GetAsync("https://localhost:7279/api/courses");
-        var json = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<IEnumerable<CourseEntity>>(json);
+        viewModel.Courses = JsonConvert.DeserializeObject<IEnumerable<CourseModel>>(await response.Content.ReadAsStringAsync())!;
 
-        return View(data);
+        return View(viewModel);
     }
 
     public IActionResult Create()

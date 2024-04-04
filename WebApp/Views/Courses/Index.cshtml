@@ -1,7 +1,8 @@
 ﻿@using Infrastructure.Entities
 @using WebApi.Models
 @using WebApp.Models
-@model IEnumerable<CourseViewModel>
+@* @model ICollection<CourseViewModel> *@
+@model CourseViewModel
 
 @{
     ViewData["Title"] = "Courses";
@@ -12,10 +13,6 @@
 <hr />
 <br />
 
-@* @foreach (var course in Model)
-{
-    <div>@course.Title</div>
-} *@
 
 <section class="courses">
     <div class="container">
@@ -51,14 +48,14 @@
         </div>
 
         <div class="courses-grid grid-12">
-            @foreach (var viewModel in Model)
+            @foreach (var viewModel in Model.Courses)
             {
                 <article class="course-card">
-                    <img class="course-img" src="@viewModel.Course?.RatingImage" alt="">
+                    <img class="course-img" src="@viewModel.RatingImage" alt="">
                     <!-- <i class="fa-regular fa-bookmark favorite"></i> -->
                     <button type="button" class="fa-regular fa-bookmark favorite" data-bs-toggle="tooltip"
                             data-bs-placement="top" data-bs-title="Favorite"></button>
-                    @if (viewModel.Course?.IsBestseller == true)
+                    @if (viewModel.IsBestseller == true)
                     {
                         <p class="best-seller text-s">Best Seller</p>
                     }
@@ -66,17 +63,28 @@
 
 
                     <div class="card-text">
-                        <h5>@viewModel.Course?.Title</h5>
-                        <p class="text-s">By @viewModel.Creator?.CreatorName</p>
-                        <p class="text-lg">$@viewModel.Details?.Price</p>
+                        <h5>@viewModel.Title</h5>
+                        <p class="text-s">By @viewModel.CreatorName</p>
+                        <div class="prices">
+                            @if(viewModel.DiscountedPrice > 0)
+                            {
+                                <p class="text-lg discount-price">$@viewModel.DiscountedPrice</p>
+                                <p class="text-lg original-price">$@viewModel.Price</p>
+                            }
+                            else
+                            {
+                                <p class="text-lg">$@viewModel.Price</p>
+                            }
+
+                        </div>
                         <span class="border border-1"></span>
 
                         <div class="card-info">
                             <i class="fa-regular fa-clock">
-                                <p class="text-s">@viewModel.Course?.DurationHours hours</p>
+                                <p class="text-s">@viewModel.DurationHours hours</p>
                             </i>
                             <i class="fa-regular fa-thumbs-up">
-                                <p class="text-s">@viewModel.Course?.LikesInProcent (@viewModel.Course?.LikesInNumbers)</p>
+                                <p class="text-s">@viewModel.LikesInProcent (@viewModel.LikesInNumbers)</p>
                             </i>
                         </div>
 

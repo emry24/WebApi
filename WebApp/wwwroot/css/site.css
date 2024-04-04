@@ -776,6 +776,18 @@ form span.field-validation-error::after {
   gap: 20px;
   padding: 1.5rem 1rem;
 }
+.courses .container .courses-grid .course-card .card-text .prices {
+  display: flex;
+  flex-direction: row;
+}
+.courses .container .courses-grid .course-card .card-text .prices .discount-price {
+  color: red;
+  padding-right: 30px;
+}
+.courses .container .courses-grid .course-card .card-text .prices .original-price {
+  color: grey;
+  text-decoration: line-through;
+}
 .courses .container .courses-grid .course-card .card-text .text-lg {
   font-weight: 700;
   color: #6366F1;
