@@ -13,14 +13,6 @@ public class CoursesController : Controller
 {
     public async Task<IActionResult> Index()
     {
-
-        //using var http = new HttpClient();
-        //var response = await http.GetAsync("https://localhost:7279/api/courses");
-        //var json = await response.Content.ReadAsStringAsync();
-        //var data = JsonConvert.DeserializeObject<List<CourseViewModel>>(json);
-
-        //return View(data);
-
         using var http = new HttpClient();
         var response = await http.GetAsync("https://localhost:7279/api/courses");
         var json = await response.Content.ReadAsStringAsync();
@@ -54,8 +46,19 @@ public class CoursesController : Controller
     }
 
 
+    //[Route("/details")]
+    //public async Task<IActionResult> Details()
+    //{
+    //    using var http = new HttpClient();
+    //    var response = await http.GetAsync("https://localhost:7279/api/courses/1");
+    //    var json = await response.Content.ReadAsStringAsync();
+    //    var data = JsonConvert.DeserializeObject<CourseEntity>(json);
+
+    //    return View(data);
+    //}
+
     [Route("/details")]
-    public async Task<IActionResult> Details()
+    public async Task<IActionResult> Details(string id)
     {
         using var http = new HttpClient();
         var response = await http.GetAsync("https://localhost:7279/api/courses/1");

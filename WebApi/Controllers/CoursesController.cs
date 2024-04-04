@@ -1,16 +1,20 @@
 ﻿using Infrastructure.Contexts;
 using Infrastructure.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using WebApi.Dtos;
+using WebApi.Filters;
 using WebApi.Models;
 
 namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+//[UseApiKey]
+//[Authorize]
 public class CoursesController(AppDbContext context) : ControllerBase
 {
     private readonly AppDbContext _context = context;
