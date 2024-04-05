@@ -9,9 +9,12 @@ public class SettingsAutoMapper : Profile
 {
     public SettingsAutoMapper()
     {
-        CreateMap<CourseEntity, CourseDto>();
 
-        //CreateMap<CourseDto, CourseEntity>();
-       
+        CreateMap<CategoryEntity, CategoryDto>();
+        CreateMap<CreatorEntity, CreatorDto>();
+        CreateMap<CourseDetailsEntity, CourseDetailsDto>();
+        CreateMap<CourseEntity, CourseDto>()
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
+
     }
 }

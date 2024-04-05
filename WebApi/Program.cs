@@ -9,6 +9,11 @@ using System.Text.Json.Serialization;
 using WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    x.JsonSerializerOptions.WriteIndented = true;
+});
 
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<CourseService>();

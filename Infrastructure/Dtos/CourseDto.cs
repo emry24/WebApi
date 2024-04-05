@@ -16,13 +16,8 @@ public class CourseDto
     public int DurationHours { get; set; }
     public string? Description { get; set; }
 
-
-
-    //public CreatorDto? Creator { get; set; }
-
-
+    public CreatorDto? Creator { get; set; }
     public CategoryDto? Category { get; set; }
-
     public CourseDetailsDto? Details { get; set; }
     public List<ProgramDetailsDto>? ProgramDetails { get; set; }
     public List<LearningDetailsDto>? LearningDetails { get; set; }
