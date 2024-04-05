@@ -1,4 +1,6 @@
-﻿using Infrastructure.Contexts;
+﻿using AutoMapper;
+using Infrastructure.Contexts;
+using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -50,101 +52,47 @@ public class CoursesController : ControllerBase
 
         //return NotFound();
 
-        var courses = await _courseService.GetCourseById(x => x.CourseId == id);
-
-        
+        var courses = await _courseService.GetCourseById(x => x.CourseId == id);   
 
         return Ok(courses);
     }
 
-    //[HttpPost]
-    //public async Task<IActionResult> CreateOne(CourseRegistrationForm form)
+
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCourse(CourseRegistrationDto courseRegistrationDto)
+    {
+        if (ModelState.IsValid)
+        {
+             var createdCourse = await _courseService.CreateCourse(courseRegistrationDto);
+             return Ok(createdCourse);
+        }
+
+        return BadRequest();
+    }
+
+
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> UpdateCourse(int id, CourseRegistrationDto updatedCourseDto)
     //{
-    //    if (ModelState.IsValid)
+    //    if (!ModelState.IsValid)
     //    {
-    //        var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == form.CategoryName);
-    //        if (existingCategory == null)
-    //        {
-    //            var categoryEntity = new CategoryEntity
-    //            {
-    //                CategoryName = form.CategoryName,
-    //            };
+    //        //var createdCourse = await _courseService.UpdateCourse();
+    //        //return Ok(createdCourse);
 
-    //            _context.Categories.Add(categoryEntity);
-    //            await _context.SaveChangesAsync();
-    //            existingCategory = categoryEntity;
-    //        }
+    //        Expression<Func<CourseEntity, bool>> expression = c => c.CourseId == id;
 
-    //        var existingCreator = await _context.Creators.FirstOrDefaultAsync(c => c.CreatorName == form.CreatorName);
-    //        if (existingCreator == null)
-    //        {
-    //            var creatorEntity = new CreatorEntity
-    //            {
-    //                CreatorName = form.CreatorName,
-    //                CreatorBio = form.CreatorBio,
-    //                YoutubeSubscribers = form.YoutubeSubscribers,
-    //                FacebookFollowers = form.FacebookFollowers,
-    //                CreatorImage = form.CreatorImage,
-    //            };
-
-    //            _context.Creators.Add(creatorEntity);
-    //            await _context.SaveChangesAsync();
-    //            existingCreator = creatorEntity;
-    //        }
-
-    //        var courseDetailsEntity = new CourseDetailsEntity
-    //        {
-    //            NumberOfArticles = form.NumberOfArticles,
-    //            NumberOfResources = form.NumberOfResources,
-    //            LifetimeAccess = form.LifetimeAccess,
-    //            Certificate = form.Certificate,
-
-    //            Price = form.Price,
-    //            DiscountedPrice = form.DiscountedPrice,
-    //        };
-
-    //        _context.CourseDetails.Add(courseDetailsEntity);
-
-    //        var courseEntity = new CourseEntity
-    //        {
-    //            Title = form.Title,
-    //            Ingress = form.Ingress,
-    //            IsBestseller = form.IsBestseller,
-    //            Reviews = form.Reviews,
-    //            RatingImage = form.RatingImage,
-    //            LikesInProcent = form.LikesInProcent,
-    //            LikesInNumbers = form.LikesInNumbers,
-    //            DurationHours = form.DurationHours,
-    //            Description = form.Description,
-    //            Category = existingCategory,
-    //            Creator = existingCreator,
-    //            Details = courseDetailsEntity,
-    //        };
-
-    //        _context.Courses.Add(courseEntity);
+    //        var updatedCourseEntity = _mapper.Map<CourseEntity>(updatedCourseDto);
 
 
+    //        var updatedCourseDto = await _courseService.UpdateCourse(expression, updatedCourseEntity);
 
-    //        //var learningDetailsEntity = new LearningDetailsEntity
-    //        //{
-    //        //    LearningsDescription = form.LearningsDescription,
-    //        //};
-    //        //_context.LearningDetails.Add(learningDetailsEntity);
-
-
-    //        //var programDetailsEntity = new ProgramDetailsEntity
-    //        //{
-    //        //    ProgramDetailsNumber = form.ProgramDetailsNumber,
-    //        //    ProgramDetailsTitle = form.ProgramDetailsTitle,
-    //        //    ProgramDetailsDescription = form.ProgramDetailsDescription,
-    //        //};
-    //        //_context.ProgramDetails.Add(programDetailsEntity);
-
-    //        await _context.SaveChangesAsync();
-
-    //        return Created("", (Course)courseEntity);
+    //        return Ok(updatedCourseDto);
     //    }
 
     //    return BadRequest();
     //}
+
+    //[HttpDelete]
+
 }

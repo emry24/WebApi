@@ -12,6 +12,9 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.WriteIndented = true;
 });
 
+builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<CreatorRepository>();
+builder.Services.AddScoped<CourseDetailsRepository>();
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<CourseService>();
 
