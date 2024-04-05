@@ -9,6 +9,7 @@ namespace Infrastructure.Entities
         [Key]
         public int CourseDetailsId { get; set; }
 
+        //ta bort hela foreign key?
         [ForeignKey(nameof(Course))]
         public int CourseId { get; set; }
 

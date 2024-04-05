@@ -13,6 +13,8 @@ public class SettingsAutoMapper : Profile
         CreateMap<CategoryEntity, CategoryDto>();
         CreateMap<CreatorEntity, CreatorDto>();
         CreateMap<CourseDetailsEntity, CourseDetailsDto>();
+        CreateMap<ProgramDetailsEntity, ProgramDetailsDto>(); 
+        CreateMap<LearningDetailsEntity, LearningDetailsDto>();
         CreateMap<CourseEntity, CourseDto>()
             .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
 

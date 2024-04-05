@@ -50,6 +50,7 @@
         <div class="courses-grid grid-12">
             @foreach (var viewModel in Model.Courses)
             {
+                <a asp-action="Details" asp-controller="Courses" asp-route-id="@viewModel.CourseId">
                 <article class="course-card">
                     <img class="course-img" src="@viewModel.RatingImage" alt="">
                     <!-- <i class="fa-regular fa-bookmark favorite"></i> -->
@@ -64,16 +65,16 @@
 
                     <div class="card-text">
                         <h5>@viewModel.Title</h5>
-                        <p class="text-s">By @viewModel.CreatorName</p>
+                        <p class="text-s">By @viewModel.Creator?.CreatorName</p>
                         <div class="prices">
-                            @if(viewModel.DiscountedPrice > 0)
+                            @if(viewModel.Details?.DiscountedPrice > 0)
                             {
-                                <p class="text-lg discount-price">$@viewModel.DiscountedPrice</p>
-                                <p class="text-lg original-price">$@viewModel.Price</p>
+                                <p class="text-lg discount-price">$@viewModel.Details?.DiscountedPrice</p>
+                                <p class="text-lg original-price">$@viewModel.Details?.Price</p>
                             }
                             else
                             {
-                                <p class="text-lg">$@viewModel.Price</p>
+                                <p class="text-lg">$@viewModel.Details?.Price</p>
                             }
 
                         </div>
@@ -91,6 +92,7 @@
                     </div>
 
                 </article>
+                </a>
             }
 
         </div>
