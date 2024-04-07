@@ -2,11 +2,13 @@
 using Infrastructure.Contexts;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq.Expressions;
 using WebApi.Dtos;
@@ -25,10 +27,12 @@ public class CoursesController : ControllerBase
 {
     //private readonly AppDbContext _context = context;
     private readonly CourseService _courseService;
+    private readonly CourseRepository _courseRepository;
 
-    public CoursesController(CourseService courseService)
+    public CoursesController(CourseService courseService, CourseRepository courseRepository)
     {
         _courseService = courseService;
+        _courseRepository = courseRepository;
     }
 
     //[HttpGet]
@@ -71,28 +75,33 @@ public class CoursesController : ControllerBase
         return BadRequest();
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCourse(int id, CourseRegistrationDto updatedCourseDto)
+    {
+        if (ModelState.IsValid)
+        {
+            var updatedCourse = await _courseService.UpdateCourse(x => x.CourseId == id, updatedCourseDto);
+            return Ok(updatedCourse);
+        }
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateCourse(int id, CourseRegistrationDto updatedCourseDto)
-    //{
-    //    if (!ModelState.IsValid)
-    //    {
-    //        //var createdCourse = await _courseService.UpdateCourse();
-    //        //return Ok(createdCourse);
-
-    //        Expression<Func<CourseEntity, bool>> expression = c => c.CourseId == id;
-
-    //        var updatedCourseEntity = _mapper.Map<CourseEntity>(updatedCourseDto);
+        return BadRequest();
+    }
 
 
-    //        var updatedCourseDto = await _courseService.UpdateCourse(expression, updatedCourseEntity);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(int id)
+    {
+        Expression<Func<CourseEntity, bool>> expression = x => x.CourseId == id;
 
-    //        return Ok(updatedCourseDto);
-    //    }
+        var isDeleted = await _courseRepository.DeleteAsync(expression);
 
-    //    return BadRequest();
-    //}
-
-    //[HttpDelete]
-
+        if (isDeleted)
+        {
+            return Ok(); 
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
 }

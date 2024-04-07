@@ -18,7 +18,7 @@ public class CategoryRepository(AppDbContext context) : Repo<CategoryEntity>(con
         catch (Exception ex)
         {
             Debug.WriteLine("ERROR :: " + ex.Message);
-            return null;
+            return null!;
         }
     }
 }

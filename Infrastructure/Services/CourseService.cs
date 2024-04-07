@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Infrastructure.Configuration;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Services;
@@ -123,35 +120,27 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
         };
 
         return createdCourseDto;
-
     }
 
 
     public async Task<CourseDto> UpdateCourse(Expression<Func<CourseEntity, bool>> expression, CourseEntity updatedEntity)
     {
         var existingCourse = await _courseRepository.GetAsync(expression);
-        if (existingCourse == null)
+        if (existingCourse != null)
         {
-            throw new Exception("Course not found.");
-        }
+            existingCourse.Title = updatedEntity.Title;
+            existingCourse.Ingress = updatedEntity.Ingress;
+            existingCourse.IsBestseller = updatedEntity.IsBestseller;
+            existingCourse.Reviews = updatedEntity.Reviews;
+            existingCourse.RatingImage = updatedEntity.RatingImage;
+            existingCourse.LikesInProcent = updatedEntity.LikesInProcent;
+            existingCourse.LikesInNumbers = updatedEntity.LikesInNumbers;
+            existingCourse.DurationHours = updatedEntity.DurationHours;
+            existingCourse.Description = updatedEntity.Description;
 
-        existingCourse.Title = updatedEntity.Title;
-        existingCourse.Ingress = updatedEntity.Ingress;
-        existingCourse.IsBestseller = updatedEntity.IsBestseller;
-        existingCourse.Reviews = updatedEntity.Reviews;
-        existingCourse.RatingImage = updatedEntity.RatingImage;
-        existingCourse.LikesInProcent = updatedEntity.LikesInProcent;
-        existingCourse.LikesInNumbers = updatedEntity.LikesInNumbers;
-        existingCourse.DurationHours = updatedEntity.DurationHours;
-        existingCourse.Description = updatedEntity.Description;
-
-        await _courseRepository.UpdateAsync(expression, existingCourse);
+            await _courseRepository.UpdateAsync(expression, existingCourse);
+        };
 
         return _mapper.Map<CourseDto>(existingCourse);
     }
-
-    //public async Task<CourseDto> DeleteCourse(Expression<Func<CourseEntity, bool>> expression)
-    //{
-
-    //}
 }
