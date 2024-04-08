@@ -251,32 +251,49 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
                     }
                 }
 
+                if (updatedEntity.LearningDetails != null)
+                {
+                    foreach (var updatedLearningDetail in updatedEntity.LearningDetails)
+                    {
+                        var existingLearningDetail = existingCourse.LearningDetails!.FirstOrDefault(x => x.LearningsId == updatedLearningDetail.LearningsId);
 
-                //if (existingCourse.LearningDetails != null && updatedEntity.LearningDetails != null)
-                //{
-                //    foreach (var learningDetail in existingCourse.LearningDetails!)
-                //    {
-                //        var updatedLearningDetail = updatedEntity.LearningDetails!.FirstOrDefault(ld => ld.LearningsId == learningDetail.LearningsId);
-                //        if (updatedLearningDetail != null)
-                //        {
-                //            learningDetail.LearningsDescription = updatedLearningDetail.LearningsDescription;
-                //        }
-                //    }
-                //}
+                        if (existingLearningDetail != null)
+                        {
+                            existingLearningDetail.LearningsDescription = updatedLearningDetail.LearningsDescription;
+                        }
+                        else
+                        {
+                            existingCourse.LearningDetails!.Add(new LearningDetailsEntity
+                            {
+                                LearningsDescription = updatedLearningDetail.LearningsDescription
+                            });
+                        }
+                    }
+                }
 
-                //if (existingCourse.ProgramDetails != null && updatedEntity.ProgramDetails != null)
-                //{
-                //    foreach (var programDetail in existingCourse.ProgramDetails!)
-                //    {
-                //        var updatedProgramDetail = updatedEntity.ProgramDetails!.FirstOrDefault(pd => pd.SectionId == programDetail.SectionId);
-                //        if (updatedProgramDetail != null)
-                //        {
-                //            programDetail.ProgramDetailsNumber = updatedProgramDetail.ProgramDetailsNumber;
-                //            programDetail.ProgramDetailsTitle = updatedProgramDetail.ProgramDetailsTitle;
-                //            programDetail.ProgramDetailsDescription = updatedProgramDetail.ProgramDetailsDescription;
-                //        }
-                //    }
-                //}
+                if (updatedEntity.ProgramDetails != null)
+                {
+                    foreach (var updatedProgramDetail in updatedEntity.ProgramDetails)
+                    {
+                        var existingProgramDetail = existingCourse.ProgramDetails!.FirstOrDefault(x => x.SectionId == updatedProgramDetail.SectionId);
+
+                        if (existingProgramDetail != null)
+                        {
+                            existingProgramDetail.ProgramDetailsNumber = updatedProgramDetail.ProgramDetailsNumber;
+                            existingProgramDetail.ProgramDetailsTitle = updatedProgramDetail.ProgramDetailsTitle;
+                            existingProgramDetail.ProgramDetailsDescription = updatedProgramDetail.ProgramDetailsDescription;
+                        }
+                        else
+                        {
+                            existingCourse.ProgramDetails!.Add(new ProgramDetailsEntity
+                            {
+                                ProgramDetailsNumber = updatedProgramDetail.ProgramDetailsNumber,
+                                ProgramDetailsTitle = updatedProgramDetail.ProgramDetailsTitle,
+                                ProgramDetailsDescription = updatedProgramDetail.ProgramDetailsDescription
+                            });
+                        }
+                    }
+                }
 
                 await _courseRepository.UpdateAsync(expression, existingCourse);
             };

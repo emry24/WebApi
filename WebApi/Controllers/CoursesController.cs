@@ -86,7 +86,6 @@ public class CoursesController : ControllerBase
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
-
     }
 
 
@@ -106,7 +105,6 @@ public class CoursesController : ControllerBase
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
-
     }
 
 
@@ -130,6 +128,5 @@ public class CoursesController : ControllerBase
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
-
     }
 }
