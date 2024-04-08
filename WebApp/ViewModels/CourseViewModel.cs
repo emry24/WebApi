@@ -1,6 +1,4 @@
-﻿using Infrastructure.Entities;
-
-namespace WebApp.Models;
+﻿namespace WebApp.Models;
 
 public class CourseViewModel
 {

@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
 using Infrastructure.Dtos;
-using Infrastructure.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Text;
 using WebApp.Models;
-using static System.Net.WebRequestMethods;
 
 namespace WebApp.Controllers;
 

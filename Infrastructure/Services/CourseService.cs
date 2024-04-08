@@ -2,7 +2,10 @@
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Infrastructure.Services;
 
@@ -15,132 +18,274 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
 
     private readonly IMapper _mapper = mapper;
 
+    #region Get All
     public async Task<IEnumerable<CourseEntity>> GetAllCourses()
     {
         return await _courseRepository.GetAllAsync();
     }
 
+    #endregion
+
+    #region Get One
     public async Task<CourseDto> GetCourseById(Expression<Func<CourseEntity, bool>> expression)
     {
-        var courseEntity = await _courseRepository.GetAsync(expression);
-        return _mapper.Map<CourseDto>(courseEntity);       
+        try
+        {
+            var courseEntity = await _courseRepository.GetAsync(expression);
+            return _mapper.Map<CourseDto>(courseEntity);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
+    #endregion
+
+    #region Create
     public async Task<CourseDto> CreateCourse(CourseRegistrationDto courseRegistrationDto)
     {
-
-        var existingCreator = await _creatorRepository.GetByNameAsync(courseRegistrationDto.CreatorName);
-        if (existingCreator == null)
+        try
         {
-            var creatorEntity = new CreatorEntity
+            var existingCreator = await _creatorRepository.GetByNameAsync(courseRegistrationDto.CreatorName);
+            if (existingCreator == null)
             {
-                CreatorName = courseRegistrationDto.CreatorName,
-                CreatorBio = courseRegistrationDto.CreatorBio,
-                CreatorImage = courseRegistrationDto.CreatorImage,
-                YoutubeSubscribers = courseRegistrationDto.YoutubeSubscribers,
-                FacebookFollowers = courseRegistrationDto.FacebookFollowers,
+                var creatorEntity = new CreatorEntity
+                {
+                    CreatorName = courseRegistrationDto.CreatorName,
+                    CreatorBio = courseRegistrationDto.CreatorBio,
+                    CreatorImage = courseRegistrationDto.CreatorImage,
+                    YoutubeSubscribers = courseRegistrationDto.YoutubeSubscribers,
+                    FacebookFollowers = courseRegistrationDto.FacebookFollowers,
+                };
+
+                await _creatorRepository.CreateAsync(creatorEntity);
+                existingCreator = creatorEntity;
+            }
+
+            var existingCategory = await _categoryRepository.GetByNameAsync(courseRegistrationDto.CategoryName);
+            if (existingCategory == null)
+            {
+                var categoryEntity = new CategoryEntity
+                {
+                    CategoryName = courseRegistrationDto.CategoryName,
+                };
+
+                await _categoryRepository.CreateAsync(categoryEntity);
+                existingCategory = categoryEntity;
+            }
+
+            var courseDetailsEntity = new CourseDetailsEntity
+            {
+                NumberOfArticles = courseRegistrationDto.NumberOfArticles,
+                NumberOfResources = courseRegistrationDto.NumberOfResources,
+                LifetimeAccess = courseRegistrationDto.LifetimeAccess,
+                Certificate = courseRegistrationDto.Certificate,
+
+                Price = courseRegistrationDto.Price,
+                DiscountedPrice = courseRegistrationDto.DiscountedPrice,
             };
 
-            await _creatorRepository.CreateAsync(creatorEntity);
-            existingCreator = creatorEntity;
-        }
+            await _courseDetailsRepository.CreateAsync(courseDetailsEntity);
 
-        var existingCategory = await _categoryRepository.GetByNameAsync(courseRegistrationDto.CategoryName);
-        if (existingCategory == null)
-        {
-            var categoryEntity = new CategoryEntity
+            var courseEntity = new CourseEntity
             {
-                CategoryName = courseRegistrationDto.CategoryName,
+                Title = courseRegistrationDto.Title,
+                Ingress = courseRegistrationDto.Ingress,
+                IsBestseller = courseRegistrationDto.IsBestseller,
+                Reviews = courseRegistrationDto.Reviews,
+                RatingImage = courseRegistrationDto.RatingImage,
+                LikesInProcent = courseRegistrationDto.LikesInProcent,
+                LikesInNumbers = courseRegistrationDto.LikesInNumbers,
+                DurationHours = courseRegistrationDto.DurationHours,
+                Description = courseRegistrationDto.Description,
+                Category = existingCategory,
+                Creator = existingCreator,
+                Details = courseDetailsEntity,
             };
 
-            await _categoryRepository.CreateAsync(categoryEntity);
-            existingCategory = categoryEntity;
+            var createdCourseEntity = await _courseRepository.CreateAsync(courseEntity);
+
+            //var learningDetailsEntity = new LearningDetailsEntity
+            //{
+            //    LearningsDescription = form.LearningsDescription,
+            //};
+            //_context.LearningDetails.Add(learningDetailsEntity);
+
+
+            //var programDetailsEntity = new ProgramDetailsEntity
+            //{
+            //    ProgramDetailsNumber = form.ProgramDetailsNumber,
+            //    ProgramDetailsTitle = form.ProgramDetailsTitle,
+            //    ProgramDetailsDescription = form.ProgramDetailsDescription,
+            //};
+            //_context.ProgramDetails.Add(programDetailsEntity);
+
+            var createdCourseDto = new CourseDto
+            {
+                Title = createdCourseEntity.Title,
+                Ingress = createdCourseEntity.Ingress,
+                IsBestseller = createdCourseEntity.IsBestseller,
+                Reviews = createdCourseEntity.Reviews,
+                RatingImage = createdCourseEntity.RatingImage,
+                LikesInProcent = createdCourseEntity.LikesInProcent,
+                LikesInNumbers = createdCourseEntity.LikesInNumbers,
+                DurationHours = createdCourseEntity.DurationHours,
+                Description = createdCourseEntity.Description,
+                Category = _mapper.Map<CategoryDto>(existingCategory),
+                Creator = _mapper.Map<CreatorDto>(existingCreator),
+                Details = _mapper.Map<CourseDetailsDto>(courseDetailsEntity)
+            };
+
+            return createdCourseDto;
         }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
-        var courseDetailsEntity = new CourseDetailsEntity
-        {
-            NumberOfArticles = courseRegistrationDto.NumberOfArticles,
-            NumberOfResources = courseRegistrationDto.NumberOfResources,
-            LifetimeAccess = courseRegistrationDto.LifetimeAccess,
-            Certificate = courseRegistrationDto.Certificate,
-
-            Price = courseRegistrationDto.Price,
-            DiscountedPrice = courseRegistrationDto.DiscountedPrice,
-        };
-
-        await _courseDetailsRepository.CreateAsync(courseDetailsEntity);
-
-        var courseEntity = new CourseEntity
-        {
-            Title = courseRegistrationDto.Title,
-            Ingress = courseRegistrationDto.Ingress,
-            IsBestseller = courseRegistrationDto.IsBestseller,
-            Reviews = courseRegistrationDto.Reviews,
-            RatingImage = courseRegistrationDto.RatingImage,
-            LikesInProcent = courseRegistrationDto.LikesInProcent,
-            LikesInNumbers = courseRegistrationDto.LikesInNumbers,
-            DurationHours = courseRegistrationDto.DurationHours,
-            Description = courseRegistrationDto.Description,
-            Category = existingCategory,
-            Creator = existingCreator,
-            Details = courseDetailsEntity,
-        };
-
-        var createdCourseEntity = await _courseRepository.CreateAsync(courseEntity);
-
-        //var learningDetailsEntity = new LearningDetailsEntity
-        //{
-        //    LearningsDescription = form.LearningsDescription,
-        //};
-        //_context.LearningDetails.Add(learningDetailsEntity);
-
-
-        //var programDetailsEntity = new ProgramDetailsEntity
-        //{
-        //    ProgramDetailsNumber = form.ProgramDetailsNumber,
-        //    ProgramDetailsTitle = form.ProgramDetailsTitle,
-        //    ProgramDetailsDescription = form.ProgramDetailsDescription,
-        //};
-        //_context.ProgramDetails.Add(programDetailsEntity);
-
-        var createdCourseDto = new CourseDto
-        {
-            Title = createdCourseEntity.Title,
-            Ingress = createdCourseEntity.Ingress,
-            IsBestseller = createdCourseEntity.IsBestseller,
-            Reviews = createdCourseEntity.Reviews,
-            RatingImage = createdCourseEntity.RatingImage,
-            LikesInProcent = createdCourseEntity.LikesInProcent,
-            LikesInNumbers = createdCourseEntity.LikesInNumbers,
-            DurationHours = createdCourseEntity.DurationHours,
-            Description = createdCourseEntity.Description,
-            Category = _mapper.Map<CategoryDto>(existingCategory),
-            Creator = _mapper.Map<CreatorDto>(existingCreator),
-            Details = _mapper.Map<CourseDetailsDto>(courseDetailsEntity)
-        };
-
-        return createdCourseDto;
     }
+    #endregion
+
+    //public async Task<CourseDto> UpdateCourse(CourseDto updatedDto)
+    //{
+    //    try
+    //    {
+    //        var updatedCourseDto = updatedDto;
+    //        //var updatedCourseDetailsDto = updatedDto.CourseDetailsDto;
+
+    //        var existingCourse = await _courseRepository.GetAsync(x => x.CourseId == updatedCourseDto!.CourseId);
+    //        if (existingCourse != null)
+    //        {
+    //            existingCourse.Title = updatedCourseDto!.Title;
+    //            existingCourse.Ingress = updatedCourseDto.Ingress;
+    //            existingCourse.IsBestseller = updatedCourseDto.IsBestseller;
+    //            existingCourse.Reviews = updatedCourseDto.Reviews;
+    //            existingCourse.RatingImage = updatedCourseDto.RatingImage;
+    //            existingCourse.LikesInProcent = updatedCourseDto.LikesInProcent;
+    //            existingCourse.LikesInNumbers = updatedCourseDto.LikesInNumbers;
+    //            existingCourse.DurationHours = updatedCourseDto.DurationHours;
+    //            existingCourse.Description = updatedCourseDto.Description;
+
+    //            if (existingCourse.Details != null && updatedCourseDto.Details != null)
+    //            {
+    //                existingCourse.Details!.NumberOfArticles = updatedCourseDto.Details!.NumberOfArticles;
+    //                existingCourse.Details.NumberOfResources = updatedCourseDto.Details.NumberOfResources;
+    //                existingCourse.Details.LifetimeAccess = updatedCourseDto.Details.LifetimeAccess;
+    //                existingCourse.Details.Certificate = updatedCourseDto.Details.Certificate;
+    //                existingCourse.Details.Price = updatedCourseDto.Details.Price;
+    //                existingCourse.Details.DiscountedPrice = updatedCourseDto.Details.DiscountedPrice;
+    //            }
+
+    //            await _courseRepository.UpdateAsync(x => x.CourseId == updatedCourseDto.CourseId, existingCourse);
+    //        }
+
+    //        return updatedDto;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Debug.WriteLine("ERROR :: " + ex.Message);
+    //        return null!;
+    //    }
+    //}
+
 
 
     public async Task<CourseDto> UpdateCourse(Expression<Func<CourseEntity, bool>> expression, CourseEntity updatedEntity)
     {
-        var existingCourse = await _courseRepository.GetAsync(expression);
-        if (existingCourse != null)
+        try
         {
-            existingCourse.Title = updatedEntity.Title;
-            existingCourse.Ingress = updatedEntity.Ingress;
-            existingCourse.IsBestseller = updatedEntity.IsBestseller;
-            existingCourse.Reviews = updatedEntity.Reviews;
-            existingCourse.RatingImage = updatedEntity.RatingImage;
-            existingCourse.LikesInProcent = updatedEntity.LikesInProcent;
-            existingCourse.LikesInNumbers = updatedEntity.LikesInNumbers;
-            existingCourse.DurationHours = updatedEntity.DurationHours;
-            existingCourse.Description = updatedEntity.Description;
+            var existingCourse = await _courseRepository.GetAsync(expression);
+            if (existingCourse != null)
+            {
+                existingCourse.Title = updatedEntity.Title;
+                existingCourse.Ingress = updatedEntity.Ingress;
+                existingCourse.IsBestseller = updatedEntity.IsBestseller;
+                existingCourse.Reviews = updatedEntity.Reviews;
+                existingCourse.RatingImage = updatedEntity.RatingImage;
+                existingCourse.LikesInProcent = updatedEntity.LikesInProcent;
+                existingCourse.LikesInNumbers = updatedEntity.LikesInNumbers;
+                existingCourse.DurationHours = updatedEntity.DurationHours;
+                existingCourse.Description = updatedEntity.Description;
 
-            await _courseRepository.UpdateAsync(expression, existingCourse);
-        };
+                if (existingCourse.Details != null && updatedEntity.Details != null)
+                {
+                    existingCourse.Details!.NumberOfArticles = updatedEntity.Details!.NumberOfArticles;
+                    existingCourse.Details.NumberOfResources = updatedEntity.Details.NumberOfResources;
+                    existingCourse.Details.LifetimeAccess = updatedEntity.Details.LifetimeAccess;
+                    existingCourse.Details.Certificate = updatedEntity.Details.Certificate;
+                    existingCourse.Details.Price = updatedEntity.Details.Price;
+                    existingCourse.Details.DiscountedPrice = updatedEntity.Details.DiscountedPrice;
+                }
 
-        return _mapper.Map<CourseDto>(existingCourse);
+                if (updatedEntity.Category != null)
+                {
+                    var existingCategory = await _categoryRepository.GetAsync(x => x.CategoryName == updatedEntity.Category.CategoryName);
+
+                    if (existingCategory != null)
+                    {
+                        existingCourse.Category = existingCategory;
+                    }
+                    else
+                    {
+                        var newCategory = new CategoryEntity { CategoryName = updatedEntity.Category.CategoryName };
+                        existingCourse.Category = newCategory;
+                    }
+                }
+
+                if (updatedEntity.Creator != null)
+                {
+                    var existingCreator = await _creatorRepository.GetAsync(x => x.CreatorName == updatedEntity.Creator.CreatorName);
+
+                    if (existingCreator != null)
+                    {
+                        existingCourse.Creator = existingCreator;
+                    }
+                    else
+                    {
+                        var newCreator = new CreatorEntity
+                        {
+                            CreatorName = updatedEntity.Creator.CreatorName,
+                            CreatorBio = updatedEntity.Creator.CreatorBio,
+                            YoutubeSubscribers = updatedEntity.Creator.YoutubeSubscribers,
+                            FacebookFollowers = updatedEntity.Creator.FacebookFollowers,
+                            CreatorImage = updatedEntity.Creator.CreatorImage
+                        };
+                        existingCourse.Creator = newCreator;
+                    }
+                }
+
+
+                //if (existingCourse.LearningDetails != null && updatedEntity.LearningDetails != null)
+                //{
+                //    foreach (var learningDetail in existingCourse.LearningDetails!)
+                //    {
+                //        var updatedLearningDetail = updatedEntity.LearningDetails!.FirstOrDefault(ld => ld.LearningsId == learningDetail.LearningsId);
+                //        if (updatedLearningDetail != null)
+                //        {
+                //            learningDetail.LearningsDescription = updatedLearningDetail.LearningsDescription;
+                //        }
+                //    }
+                //}
+
+                //if (existingCourse.ProgramDetails != null && updatedEntity.ProgramDetails != null)
+                //{
+                //    foreach (var programDetail in existingCourse.ProgramDetails!)
+                //    {
+                //        var updatedProgramDetail = updatedEntity.ProgramDetails!.FirstOrDefault(pd => pd.SectionId == programDetail.SectionId);
+                //        if (updatedProgramDetail != null)
+                //        {
+                //            programDetail.ProgramDetailsNumber = updatedProgramDetail.ProgramDetailsNumber;
+                //            programDetail.ProgramDetailsTitle = updatedProgramDetail.ProgramDetailsTitle;
+                //            programDetail.ProgramDetailsDescription = updatedProgramDetail.ProgramDetailsDescription;
+                //        }
+                //    }
+                //}
+
+                await _courseRepository.UpdateAsync(expression, existingCourse);
+            };
+
+            return _mapper.Map<CourseDto>(existingCourse);
+
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 }
+
