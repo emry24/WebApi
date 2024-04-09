@@ -11,12 +11,14 @@
     <img class="background-image" src="@Model.RatingImage" alt="">
 
     <div class="container">
+
         <div class="courses-bread">
             <a href="#"><span><i class="fa-regular fa-house me-2"></i>Home <i class="fa-regular fa-angles-right"></i></span></a>
             <a href="#">Courses</a>
             <i class="fa-regular fa-angles-right"></i>
             <a href="#">@Model.Title</a>
         </div>
+
         <div class="buttons">
 @*             <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
                     data-bs-title="Favorite">
@@ -40,6 +42,7 @@
         <h1>@Model.Title</h1>
         <p>@Model.Ingress</p>
 
+        <div class="reviews-and-creator">
         <div class="card-info">
             <div class="reviews">
                 <img src="images/rating-course.svg" alt="">
@@ -61,6 +64,7 @@
                 <p class="text-lg">Created by</p>
                 <p>@Model.Creator?.CreatorName</p>
             </div>
+        </div>
         </div>
     </div>
 </section>

@@ -143,50 +143,7 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
     }
     #endregion
 
-    //public async Task<CourseDto> UpdateCourse(CourseDto updatedDto)
-    //{
-    //    try
-    //    {
-    //        var updatedCourseDto = updatedDto;
-    //        //var updatedCourseDetailsDto = updatedDto.CourseDetailsDto;
-
-    //        var existingCourse = await _courseRepository.GetAsync(x => x.CourseId == updatedCourseDto!.CourseId);
-    //        if (existingCourse != null)
-    //        {
-    //            existingCourse.Title = updatedCourseDto!.Title;
-    //            existingCourse.Ingress = updatedCourseDto.Ingress;
-    //            existingCourse.IsBestseller = updatedCourseDto.IsBestseller;
-    //            existingCourse.Reviews = updatedCourseDto.Reviews;
-    //            existingCourse.RatingImage = updatedCourseDto.RatingImage;
-    //            existingCourse.LikesInProcent = updatedCourseDto.LikesInProcent;
-    //            existingCourse.LikesInNumbers = updatedCourseDto.LikesInNumbers;
-    //            existingCourse.DurationHours = updatedCourseDto.DurationHours;
-    //            existingCourse.Description = updatedCourseDto.Description;
-
-    //            if (existingCourse.Details != null && updatedCourseDto.Details != null)
-    //            {
-    //                existingCourse.Details!.NumberOfArticles = updatedCourseDto.Details!.NumberOfArticles;
-    //                existingCourse.Details.NumberOfResources = updatedCourseDto.Details.NumberOfResources;
-    //                existingCourse.Details.LifetimeAccess = updatedCourseDto.Details.LifetimeAccess;
-    //                existingCourse.Details.Certificate = updatedCourseDto.Details.Certificate;
-    //                existingCourse.Details.Price = updatedCourseDto.Details.Price;
-    //                existingCourse.Details.DiscountedPrice = updatedCourseDto.Details.DiscountedPrice;
-    //            }
-
-    //            await _courseRepository.UpdateAsync(x => x.CourseId == updatedCourseDto.CourseId, existingCourse);
-    //        }
-
-    //        return updatedDto;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Debug.WriteLine("ERROR :: " + ex.Message);
-    //        return null!;
-    //    }
-    //}
-
-
-
+    #region Update
     public async Task<CourseDto> UpdateCourse(Expression<Func<CourseEntity, bool>> expression, CourseEntity updatedEntity)
     {
         try
@@ -304,5 +261,6 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
     }
+    #endregion
 }
 

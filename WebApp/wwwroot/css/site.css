@@ -885,16 +885,25 @@ form span.field-validation-error::after {
   top: 0;
   left: 0;
   width: auto;
+  overflow: hidden;
   height: 100%;
   background-size: cover;
   z-index: -1;
-  overflow: hidden;
   max-width: none;
+  filter: brightness(0.4);
+}
+@media (min-width: 768px) {
+  #course-showcase .background-image {
+    /*max-width: 100%;*/
+    width: 100vw;
+    height: auto;
+  }
 }
 @media (min-width: 1400px) {
   #course-showcase .background-image {
-    max-width: 100%;
+    /*max-width: 100%;*/
     width: 100%;
+    width: 100vw;
     height: auto;
   }
 }
@@ -925,23 +934,41 @@ form span.field-validation-error::after {
 #course-showcase .container .buttons .btn {
   padding: 0px 12px;
 }
-#course-showcase .container .card-info {
+#course-showcase .container .reviews-and-creator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  #course-showcase .container .reviews-and-creator {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding-top: 20px;
+  }
+}
+@media (min-width: 992px) {
+  #course-showcase .container .reviews-and-creator {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+#course-showcase .container .reviews-and-creator .card-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 100px;
 }
 @media (min-width: 992px) {
-  #course-showcase .container .card-info {
+  #course-showcase .container .reviews-and-creator .card-info {
     flex-direction: row;
   }
 }
-#course-showcase .container .card-info p {
+#course-showcase .container .reviews-and-creator .card-info p {
   padding-left: 10px;
   margin-bottom: 0;
 }
 @media (min-width: 992px) {
-  #course-showcase .container .card-info .line::after {
+  #course-showcase .container .reviews-and-creator .card-info .line::after {
     content: "";
     display: inline-flex;
     width: 1px;
@@ -951,44 +978,49 @@ form span.field-validation-error::after {
     margin-right: 25px;
   }
 }
-#course-showcase .container .card-info .reviews {
+#course-showcase .container .reviews-and-creator .card-info .reviews {
   display: flex;
   flex-direction: row;
   margin-top: 40px;
   margin-bottom: 20px;
 }
 @media (min-width: 992px) {
-  #course-showcase .container .card-info .reviews {
+  #course-showcase .container .reviews-and-creator .card-info .reviews {
     margin-top: 0px;
     margin-bottom: 0px;
   }
 }
-#course-showcase .container .card-info .likes-hours {
+#course-showcase .container .reviews-and-creator .card-info .likes-hours {
   display: flex;
   gap: 20px;
 }
 @media (min-width: 992px) {
-  #course-showcase .container .card-info .likes-hours {
+  #course-showcase .container .reviews-and-creator .card-info .likes-hours {
     gap: 0;
   }
 }
-#course-showcase .container .card-info .likes-hours i {
+#course-showcase .container .reviews-and-creator .card-info .likes-hours i {
   display: flex;
   flex-direction: row;
   color: #FFFFFF;
   align-items: center;
 }
-#course-showcase .container .creator {
+#course-showcase .container .reviews-and-creator .creator {
   display: flex;
   flex-direction: row;
   margin-bottom: 100px;
 }
-#course-showcase .container .creator p {
+#course-showcase .container .reviews-and-creator .creator p {
   margin-bottom: 0;
   margin-left: 16px;
 }
-#course-showcase .container .creator .text-lg {
+#course-showcase .container .reviews-and-creator .creator .text-lg {
   margin-bottom: 5px;
+}
+@media (min-width: 768px) {
+  #course-showcase .container .reviews-and-creator .creator {
+    flex: 1;
+  }
 }
 
 #single-course .container {
@@ -1004,14 +1036,18 @@ form span.field-validation-error::after {
   display: flex;
   flex-direction: column;
   gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Add space between .description and .specifications */
 }
 @media (min-width: 1200px) {
   #single-course .container .course-description {
     flex-direction: row;
-    gap: 0;
+    justify-content: flex-start; /* Reset justify-content for larger screens if needed */
   }
 }
 #single-course .container .course-description .description {
+  flex: 1;
   padding-right: 100px;
 }
 #single-course .container .course-description .description .check-list {
@@ -1029,6 +1065,7 @@ form span.field-validation-error::after {
   width: 100%;
   border: 1px solid #D4D7E5;
   padding: 40px;
+  max-width: 400px;
 }
 #single-course .container .course-description .specifications .included {
   display: flex;

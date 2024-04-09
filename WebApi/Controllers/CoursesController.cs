@@ -36,6 +36,8 @@ public class CoursesController : ControllerBase
     //[HttpGet]
     //public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
 
+    #region Get All
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -47,6 +49,9 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
+
+    #region Get One
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOne(int id)
@@ -68,8 +73,9 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
 
-
+    #region Create
 
     [HttpPost]
     public async Task<IActionResult> CreateCourse(CourseRegistrationDto courseRegistrationDto)
@@ -87,7 +93,9 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
 
+    #region Update
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCourse(int id, CourseDto updatedCourseDto)
@@ -106,7 +114,9 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
 
+    #region Delete
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCourse(int id)
@@ -129,4 +139,5 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
 }
