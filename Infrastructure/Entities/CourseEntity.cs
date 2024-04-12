@@ -20,6 +20,9 @@ public class CourseEntity
     public int DurationHours { get; set; }
     public string? Description { get; set; }
 
+    public DateTime Created {  get; set; }
+    public DateTime LastUpdated { get; set; }
+
     public int CreatorId { get; set; }
     public CreatorEntity? Creator { get; set; }
 

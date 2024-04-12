@@ -2,10 +2,8 @@
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Infrastructure.Services;
 
@@ -19,9 +17,25 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
     private readonly IMapper _mapper = mapper;
 
     #region Get All
-    public async Task<IEnumerable<CourseEntity>> GetAllCourses()
+    //public async Task<IEnumerable<CourseEntity>> GetAllCourses()
+    //{
+    //    return await _courseRepository.GetAllAsync();
+    //}
+
+
+    public async Task<CourseResultDto> GetAllCourses()
     {
-        return await _courseRepository.GetAllAsync();
+        var courses = await _courseRepository.GetAllAsync();
+
+        var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
+
+        var response = new CourseResultDto
+        {
+            Succeeded = true,
+            Courses = courseDtos
+        };
+
+        return response;
     }
 
     #endregion

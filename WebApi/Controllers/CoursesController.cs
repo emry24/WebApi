@@ -18,10 +18,8 @@ namespace WebApi.Controllers;
 //[UseApiKey]
 //[Authorize]
 
-//public class CoursesController(AppDbContext context) : ControllerBase
 public class CoursesController : ControllerBase
 {
-    //private readonly AppDbContext _context = context;
     private readonly CourseService _courseService;
     private readonly CourseRepository _courseRepository;
     private readonly IMapper _mapper;
@@ -33,8 +31,6 @@ public class CoursesController : ControllerBase
         _mapper = mapper;
     }
 
-    //[HttpGet]
-    //public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
 
     #region Get All
 
@@ -44,6 +40,7 @@ public class CoursesController : ControllerBase
         try
         {
             var courses = await _courseService.GetAllCourses();
+
             return Ok(courses);
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
