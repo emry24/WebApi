@@ -1,8 +1,10 @@
-﻿using Infrastructure.Entities;
+﻿using Infrastructure.Dtos;
+using Infrastructure.Entities;
+using WebApi.Models;
 
-namespace Infrastructure.Dtos;
+namespace WebApp.Models;
 
-public class CourseDto
+public class CourseModel
 {
     public int CourseId { get; set; }
     public string Title { get; set; } = null!;
@@ -16,9 +18,9 @@ public class CourseDto
     public int DurationHours { get; set; }
     public string? Description { get; set; }
 
-    public CreatorDto? Creator { get; set; }
-    public CategoryDto? Category { get; set; }
-    public CourseDetailsDto? Details { get; set; }
-    public List<ProgramDetailsDto>? ProgramDetails { get; set; }
-    public List<LearningDetailsDto>? LearningDetails { get; set; }
+    public CreatorModel? Creator { get; set; }
+    public CategoryModel? Category { get; set; }
+    public CourseDetailsModel? Details { get; set; }
+    public List<ProgramDetailsModel>? ProgramDetails { get; set; }
+    public List<LearningDetailsModel>? LearningDetails { get; set; }
 }

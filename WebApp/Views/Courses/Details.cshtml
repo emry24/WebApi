@@ -1,10 +1,173 @@
-﻿@* @using Infrastructure.Entities
-@model CourseEntity
+﻿@using WebApp.Models
+@model CourseModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
 
-<div>@Model.Id</div>
-<div>@Model.Title</div> *@
+<section id="course-showcase">
+
+    <img class="background-image" src="@Model.RatingImage" alt="">
+
+    <div class="container">
+
+        <div class="courses-bread">
+            <a href="#"><span><i class="fa-regular fa-house me-2"></i>Home <i class="fa-regular fa-angles-right"></i></span></a>
+            <a href="#">Courses</a>
+            <i class="fa-regular fa-angles-right"></i>
+            <a href="#">@Model.Title</a>
+        </div>
+
+        <div class="buttons">
+@*             <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="Favorite">
+                Best Seller
+            </button> *@
+            @if (Model.IsBestseller == true)
+            {
+            <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+            data-bs-title="Favorite">
+            Best Seller
+            </button>
+@*                 <p class="best-seller text-s">Best Seller</p> *@
+            }
+
+            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="Digital">
+                Digital
+            </button>
+        </div>
+
+        <h1>@Model.Title</h1>
+        <p>@Model.Ingress</p>
+
+        <div class="reviews-and-creator">
+        <div class="card-info">
+            <div class="reviews">
+                <img src="images/rating-course.svg" alt="">
+                <p class="text-s line">(@Model.Reviews Reviews)</p>
+            </div>
+            <div class="likes-hours">
+                <i class="fa-regular fa-thumbs-up">
+                    <p class="text-s line">@Model.LikesInNumbers likes</p>
+                </i>
+                <i class="fa-regular fa-clock">
+                    <p class="text-s">@Model.DurationHours hours</p>
+                </i>
+            </div>
+        </div>
+
+        <div class="creator">
+            <img src="images/picture-albert-flores.svg" alt="">
+            <div class="creator-specification">
+                <p class="text-lg">Created by</p>
+                <p>@Model.Creator?.CreatorName</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<section id="single-course">
+    <div class="container">
+        <div class="course-description">
+            <div class="description">
+                <h1>Course Description</h1>
+                <p>
+                    @Model.Description
+@*                     Suspendisse natoque sagittis, consequat turpis. Sed tristique tellus morbi magna. At vel senectus
+                    accumsan, arcu mattis id tempor. Tellus sagittis, euismod porttitor sed tortor est id. Feugiat
+                    velit velit, tortor ut. Ut libero cursus nibh lorem urna amet tristique leo. Viverra lorem arcu
+                    nam nunc at ipsum quam. A proin id sagittis dignissim mauris condimentum ornare. Tempus mauris
+                    sed dictum ultrices. *@
+                </p>
+
+                <div class="check-list">
+                    <h2>What you'll learn</h2>
+
+                    @foreach (var learningDetail in Model.LearningDetails!)
+                    {
+                        <div class="checked">
+                            <img src="images/icons/bx-check-circle.svg" alt="">
+                            <p>@learningDetail.LearningsDescription</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="specifications">
+                <h4>This course includes:</h4>
+
+                <div class="included">
+                    <img src="images/icons/bx-slideshow.svg" alt="">
+                    <p>@Model.DurationHours hours on-demand video</p>
+                </div>
+                <div class="included">
+                    <img src="images/icons/bx-file.svg" alt="">
+                    <p>@Model.Details?.NumberOfArticles articles</p>
+                </div>
+                <div class="included">
+                    <img src="images/icons/bx-download.svg" alt="">
+                    <p>@Model.Details?.NumberOfResources downloadable resources</p>
+                </div>
+
+                @if(Model.Details?.LifetimeAccess == true)
+                {
+                    <div class="included">
+                        <img src="images/icons/bx-infinite.svg" alt="">
+                        <p>Full lifetime access</p>
+                    </div>
+                }
+
+                @if(Model.Details?.Certificate == true)
+                {
+                    <div class="included">
+                        <img src="images/icons/bx-trophy.svg" alt="">
+                        <p>Certificate of completion</p>
+                    </div>
+                }
+
+                <div class="price">
+                    <h2>$@Model.Details?.DiscountedPrice</h2>
+                    <p class="text-xl">$@Model.Details?.Price</p>
+                </div>
+
+                <button class="btn-theme-s">Join course</button>
+
+            </div>
+        </div>
+
+        <div class="program-details">
+            <h1>Program Details</h1>
+
+            @foreach (var programDetail in Model.ProgramDetails!)
+            {
+                <div class="list-item">
+                    <img src="" alt="">
+                    <div class="list-number"><h4>@programDetail.ProgramDetailsNumber</h4></div>
+                    <div class="list-info">
+                        <h4>@programDetail.ProgramDetailsTitle</h4>
+                        <p>@programDetail.ProgramDetailsDescription</p>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+
+<section id="creator-presentation">
+    <div class="container">
+        <img src="@Model.Creator?.CreatorImage" alt="">
+        <div class="creator-text">
+            <p>Learn from the best</p>
+            <h1>@Model.Creator?.CreatorName</h1>
+            <p class="text-s">@Model.Creator?.CreatorBio</p>
+            <div class="media-buttons">
+                <button class="btn btn-danger"><i class="fa-brands fa-youtube"></i>@Model.Creator?.YoutubeSubscribers subscribers</button>
+                <button class="btn btn-info"><i class="fa-brands fa-square-facebook"></i>@Model.Creator?.FacebookFollowers followers</button>
+            </div>
+        </div>
+    </div>
+</section>

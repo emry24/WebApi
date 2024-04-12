@@ -6,6 +6,8 @@ namespace Infrastructure.Entities;
 public class CourseEntity
 {
     [Key]
+
+    //ändra till bara Id
     public int CourseId { get; set; }
     public string Title { get; set; } = null!;
     public string? Ingress { get; set; }

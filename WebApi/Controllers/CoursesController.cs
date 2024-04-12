@@ -1,124 +1,143 @@
-﻿using Infrastructure.Contexts;
+﻿using AutoMapper;
+using Infrastructure.Dtos;
 using Infrastructure.Entities;
-using Microsoft.AspNetCore.Http;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using WebApi.Dtos;
-using WebApi.Models;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using WebApi.Filters;
+
 
 namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CoursesController(AppDbContext context) : ControllerBase
+//[UseApiKey]
+//[Authorize]
+
+//public class CoursesController(AppDbContext context) : ControllerBase
+public class CoursesController : ControllerBase
 {
-    private readonly AppDbContext _context = context;
+    //private readonly AppDbContext _context = context;
+    private readonly CourseService _courseService;
+    private readonly CourseRepository _courseRepository;
+    private readonly IMapper _mapper;
+
+    public CoursesController(CourseService courseService, CourseRepository courseRepository, IMapper mapper)
+    {
+        _courseService = courseService;
+        _courseRepository = courseRepository;
+        _mapper = mapper;
+    }
+
+    //[HttpGet]
+    //public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
+
+    #region Get All
 
     [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
+    public async Task<IActionResult> GetAll()
+    {
+        try
+        {
+            var courses = await _courseService.GetAllCourses();
+            return Ok(courses);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
 
+    #region Get One
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOne(int id)
     {
-        var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
-        if (course != null)
+        try
         {
-            return Ok(course);
-        }
+            //var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+            //if (course != null)
+            //{
+            //    return Ok(course);
+            //}
 
-        return NotFound();
+            //return NotFound();
+
+            var courses = await _courseService.GetCourseById(x => x.CourseId == id);
+
+            return Ok(courses);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
+
+    #region Create
 
     [HttpPost]
-    public async Task<IActionResult> CreateOne(CourseRegistrationForm form)
+    public async Task<IActionResult> CreateCourse(CourseRegistrationDto courseRegistrationDto)
     {
-        if (ModelState.IsValid)
+        try
         {
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == form.CategoryName);
-            if (existingCategory == null)
+            if (ModelState.IsValid)
             {
-                var categoryEntity = new CategoryEntity
-                {
-                    CategoryName = form.CategoryName,
-                };
-
-                _context.Categories.Add(categoryEntity);
-                await _context.SaveChangesAsync();
-                existingCategory = categoryEntity;
+                var createdCourse = await _courseService.CreateCourse(courseRegistrationDto);
+                return Ok(createdCourse);
             }
 
-            var existingCreator = await _context.Creators.FirstOrDefaultAsync(c => c.CreatorName == form.CreatorName);
-            if (existingCreator == null)
-            {
-                var creatorEntity = new CreatorEntity
-                {
-                    CreatorName = form.CreatorName,
-                    CreatorBio = form.CreatorBio,
-                    YoutubeSubscribers = form.YoutubeSubscribers,
-                    FacebookFollowers = form.FacebookFollowers,
-                    CreatorImage = form.CreatorImage,
-                };
-
-                _context.Creators.Add(creatorEntity);
-                await _context.SaveChangesAsync();
-                existingCreator = creatorEntity;
-            }
-
-            var courseDetailsEntity = new CourseDetailsEntity
-            {
-                NumberOfArticles = form.NumberOfArticles,
-                NumberOfResources = form.NumberOfResources,
-                LifetimeAccess = form.LifetimeAccess,
-                Certificate = form.Certificate,
-
-                Price = form.Price,
-                DiscountedPrice = form.DiscountedPrice,
-            };
-
-            _context.CourseDetails.Add(courseDetailsEntity);
-
-            var courseEntity = new CourseEntity
-            {
-                Title = form.Title,
-                Ingress = form.Ingress,
-                IsBestseller = form.IsBestseller,
-                Reviews = form.Reviews,
-                RatingImage = form.RatingImage,
-                LikesInProcent = form.LikesInProcent,
-                LikesInNumbers = form.LikesInNumbers,
-                DurationHours = form.DurationHours,
-                Description = form.Description,
-                Category = existingCategory,
-                Creator = existingCreator,
-                Details = courseDetailsEntity,
-            };
-
-            _context.Courses.Add(courseEntity);
-
-
-
-            //var learningDetailsEntity = new LearningDetailsEntity
-            //{
-            //    LearningsDescription = form.LearningsDescription,
-            //};
-            //_context.LearningDetails.Add(learningDetailsEntity);
-
-
-            //var programDetailsEntity = new ProgramDetailsEntity
-            //{
-            //    ProgramDetailsNumber = form.ProgramDetailsNumber,
-            //    ProgramDetailsTitle = form.ProgramDetailsTitle,
-            //    ProgramDetailsDescription = form.ProgramDetailsDescription,
-            //};
-            //_context.ProgramDetails.Add(programDetailsEntity);
-
-            await _context.SaveChangesAsync();
-
-            return Created("", (Course)courseEntity);
+            return BadRequest();
         }
-
-        return BadRequest();
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
+
+    #region Update
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCourse(int id, CourseDto updatedCourseDto)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedCourseEntity = _mapper.Map<CourseEntity>(updatedCourseDto);
+                var updatedCourse = await _courseService.UpdateCourse(x => x.CourseId == id, updatedCourseEntity);
+                return Ok(updatedCourse);
+            }
+
+            return BadRequest();
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
+
+    #region Delete
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(int id)
+    {
+        try
+        {
+            Expression<Func<CourseEntity, bool>> expression = x => x.CourseId == id;
+
+            var isDeleted = await _courseRepository.DeleteAsync(expression);
+
+            if (isDeleted)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
 }
