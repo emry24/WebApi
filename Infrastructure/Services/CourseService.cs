@@ -19,7 +19,12 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
     #region Get All
     //public async Task<IEnumerable<CourseEntity>> GetAllCourses()
     //{
-    //    return await _courseRepository.GetAllAsync();
+    //    try
+    //    {
+    //        return await _courseRepository.GetAllAsync();
+    //    }
+    //    catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+    //    return null!;
     //}
 
 

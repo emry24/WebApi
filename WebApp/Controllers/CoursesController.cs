@@ -13,33 +13,38 @@ public class CoursesController(HttpClient http, IMapper mapper) : Controller
     private readonly HttpClient _http = http;
     private readonly IMapper _mapper = mapper;  //ta bort
 
-
-
     //public async Task<IActionResult> Index()
     //{
+    //    var viewModel = new CourseViewModel();
+
     //    using var http = new HttpClient();
     //    var response = await http.GetAsync("https://localhost:7279/api/courses");
-    //    var json = await response.Content.ReadAsStringAsync();
-    //    var data = JsonConvert.DeserializeObject<IEnumerable<CourseEntity>>(json);
+    //    viewModel.Courses = JsonConvert.DeserializeObject<IEnumerable<CourseModel>>(await response.Content.ReadAsStringAsync())!;
 
-    //    return View(data);
+    //    return View(viewModel);
     //}
 
     public async Task<IActionResult> Index()
     {
-        var viewModel = new CourseViewModel();
+        var viewModel = new CourseResultModel();
 
         using var http = new HttpClient();
         var response = await http.GetAsync("https://localhost:7279/api/courses");
-        viewModel.Courses = JsonConvert.DeserializeObject<IEnumerable<CourseModel>>(await response.Content.ReadAsStringAsync())!;
+        if (response.IsSuccessStatusCode)
+        {
+            var courseResult = JsonConvert.DeserializeObject<CourseResultModel>(await response.Content.ReadAsStringAsync());
+            viewModel.Courses = courseResult!.Courses;
+
+            ViewData["Status"] = "Success";
+        }
+        else
+        {
+            ViewData["Status"] = "ConnectionFailed";
+        }
 
         return View(viewModel);
     }
 
-    //public IActionResult Create()
-    //{
-    //    return View();
-    //}
 
     [HttpPost]
     public async Task<IActionResult> Create(CourseRegistrationFormViewModel viewModel)
