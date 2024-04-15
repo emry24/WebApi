@@ -1,47 +1,28 @@
 ﻿using AutoMapper;
+using Infrastructure.Contexts;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Services;
 
-public class CourseService(CourseRepository courseRepository, CreatorRepository creatorRepository, CategoryRepository categoryRepository, CourseDetailsRepository courseDetailsRepository, IMapper mapper)
+public class CourseService(CourseRepository courseRepository, CreatorRepository creatorRepository, CategoryRepository categoryRepository, CourseDetailsRepository courseDetailsRepository, IMapper mapper, AppDbContext context)
 {
     private readonly CourseRepository _courseRepository = courseRepository;
     private readonly CreatorRepository _creatorRepository = creatorRepository;
     private readonly CategoryRepository _categoryRepository = categoryRepository;
     private readonly CourseDetailsRepository _courseDetailsRepository = courseDetailsRepository;
+    private readonly AppDbContext _context = context;
 
     private readonly IMapper _mapper = mapper;
 
     #region Get All
-    //public async Task<IEnumerable<CourseEntity>> GetAllCourses()
-    //{
-    //    try
-    //    {
-    //        return await _courseRepository.GetAllAsync();
-    //    }
-    //    catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
-    //    return null!;
-    //}
-
-
-    public async Task<CourseResultDto> GetAllCourses()
-    {
-        var courses = await _courseRepository.GetAllAsync();
-
-        var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
-
-        var response = new CourseResultDto
-        {
-            Succeeded = true,
-            Courses = courseDtos
-        };
-
-        return response;
-    }
 
     #endregion
 

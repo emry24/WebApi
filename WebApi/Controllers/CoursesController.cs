@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Infrastructure.Contexts;
 using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -23,25 +25,44 @@ public class CoursesController : ControllerBase
     private readonly CourseService _courseService;
     private readonly CourseRepository _courseRepository;
     private readonly IMapper _mapper;
+    private readonly AppDbContext _context;
 
-    public CoursesController(CourseService courseService, CourseRepository courseRepository, IMapper mapper)
+    public CoursesController(CourseService courseService, CourseRepository courseRepository, IMapper mapper, AppDbContext context)
     {
         _courseService = courseService;
         _courseRepository = courseRepository;
         _mapper = mapper;
+        _context = context;
     }
 
 
     #region Get All
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "")
     {
         try
         {
-            var courses = await _courseService.GetAllCourses();
+            var query = _context.Courses.Include(i => i.Category).Include(i => i.Details).Include(i => i.Creator).AsQueryable();
 
-            return Ok(courses);
+            if (!string.IsNullOrWhiteSpace(category) && category.ToLower() != "all")
+                query = query.Where(x => x.Category!.CategoryName == category);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+                query = query.Where(x => x.Title.Contains(searchQuery) || x.Creator!.CreatorName.Contains(searchQuery));
+
+            query = query.OrderByDescending(x => x.LastUpdated);
+
+            var coursesList = await query.ToListAsync();
+            var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(coursesList);
+
+            var response = new CourseResultDto
+            {
+                Succeeded = true,
+                Courses = courseDtos
+            };
+
+            return Ok(response);
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);

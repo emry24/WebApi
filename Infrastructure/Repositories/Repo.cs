@@ -96,7 +96,6 @@ public abstract class Repo<TEntity> where TEntity : class
         {
             var existing = await _context.Set<TEntity>().AnyAsync(expression);
             return existing;
-            //return _context.Set<TEntity>().Any(expression);
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return false;
