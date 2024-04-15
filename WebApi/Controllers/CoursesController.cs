@@ -1,59 +1,161 @@
-﻿using Infrastructure.Contexts;
+﻿using AutoMapper;
+using Infrastructure.Contexts;
+using Infrastructure.Dtos;
 using Infrastructure.Entities;
-using Microsoft.AspNetCore.Http;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Dtos;
-using WebApi.Models;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using WebApi.Filters;
+
 
 namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CoursesController(AppDbContext context) : ControllerBase
+//[UseApiKey]
+//[Authorize]
+
+public class CoursesController : ControllerBase
 {
-    private readonly AppDbContext _context = context;
+    private readonly CourseService _courseService;
+    private readonly CourseRepository _courseRepository;
+    private readonly IMapper _mapper;
+    private readonly AppDbContext _context;
+
+    public CoursesController(CourseService courseService, CourseRepository courseRepository, IMapper mapper, AppDbContext context)
+    {
+        _courseService = courseService;
+        _courseRepository = courseRepository;
+        _mapper = mapper;
+        _context = context;
+    }
+
+
+    #region Get All
 
     [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _context.Courses.ToListAsync());
+    public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "")
+    {
+        try
+        {
+            var query = _context.Courses.Include(i => i.Category).Include(i => i.Details).Include(i => i.Creator).AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(category) && category.ToLower() != "all")
+                query = query.Where(x => x.Category!.CategoryName == category);
 
+            if (!string.IsNullOrEmpty(searchQuery))
+                query = query.Where(x => x.Title.Contains(searchQuery) || x.Creator!.CreatorName.Contains(searchQuery));
+
+            query = query.OrderByDescending(x => x.LastUpdated);
+
+            var coursesList = await query.ToListAsync();
+            var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(coursesList);
+
+            var response = new CourseResultDto
+            {
+                Succeeded = true,
+                Courses = courseDtos
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
+
+    #region Get One
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOne(int id)
     {
-        var course = await _context.Courses.FirstOrDefaultAsync( x => x.Id == id); 
-        if (course != null)
+        try
         {
-            return Ok(course);
-        }
+            //var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+            //if (course != null)
+            //{
+            //    return Ok(course);
+            //}
 
-        return NotFound();
+            //return NotFound();
+
+            var courses = await _courseService.GetCourseById(x => x.CourseId == id);
+
+            return Ok(courses);
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
+
+    #region Create
 
     [HttpPost]
-    public async Task<IActionResult> CreateOne(CourseRegistrationForm form)
+    public async Task<IActionResult> CreateCourse(CourseRegistrationDto courseRegistrationDto)
     {
-        if (ModelState.IsValid)
+        try
         {
-            var courseEntity = new CourseEntity
+            if (ModelState.IsValid)
             {
-                Title = form.Title,
-                Price = form.Price,
-                DiscountPrice = form.DiscountPrice,
-                Hours = form.Hours,
-                IsBestseller = form.IsBestseller,
-                LikesInNumbers = form.LikesInNumbers,
-                LikesInProcent = form.LikesInProcent,
-                Author = form.Author,
-            };
+                var createdCourse = await _courseService.CreateCourse(courseRegistrationDto);
+                return Ok(createdCourse);
+            }
 
-            _context.Courses.Add(courseEntity);
-            await _context.SaveChangesAsync();
-
-            return Created("", (Course)courseEntity);
+            return BadRequest();
         }
-
-        return BadRequest();
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    #endregion
+
+    #region Update
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCourse(int id, CourseDto updatedCourseDto)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedCourseEntity = _mapper.Map<CourseEntity>(updatedCourseDto);
+                var updatedCourse = await _courseService.UpdateCourse(x => x.CourseId == id, updatedCourseEntity);
+                return Ok(updatedCourse);
+            }
+
+            return BadRequest();
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
+
+    #region Delete
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(int id)
+    {
+        try
+        {
+            Expression<Func<CourseEntity, bool>> expression = x => x.CourseId == id;
+
+            var isDeleted = await _courseRepository.DeleteAsync(expression);
+
+            if (isDeleted)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    #endregion
 }

@@ -1,10 +1,10 @@
-﻿using Infrastructure.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
-using WebApp.Models;
+﻿//using Infrastructure.Entities;
+//using Microsoft.AspNetCore.Mvc;
+//using Newtonsoft.Json;
+//using System.Text;
+//using WebApp.Models;
 
-namespace WebApp.Controllers;
+//namespace WebApp.Controllers;
 
 //public class SubscribersController(HttpClient http) : Controller
 //{

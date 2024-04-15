@@ -1,6 +1,10 @@
+using Infrastructure.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
+
+builder.Services.AddAutoMapper(typeof(SettingsAutoMapper));
 
 var app = builder.Build();
 app.UseHsts();

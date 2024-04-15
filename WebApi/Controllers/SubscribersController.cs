@@ -10,7 +10,7 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-
+//[UseApiKey]
 public class SubscribersController(AppDbContext context) : Controller
 {
 
@@ -19,7 +19,6 @@ public class SubscribersController(AppDbContext context) : Controller
     #region CREATE
 
     [HttpPost]
-    [UseApiKey]
     public async Task<IActionResult> Create(SubscriberDto dto)
     {
         if (ModelState.IsValid)
