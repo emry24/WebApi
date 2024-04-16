@@ -38,41 +38,6 @@ public class CoursesController : ControllerBase
 
     #region Get All
 
-    //[HttpGet]
-    //public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "", int pageNumber = 1,int pageSize = 10)
-    //{
-    //    try
-    //    {
-    //        #region query filters
-    //        var query = _context.Courses.Include(i => i.Category).Include(i => i.Details).Include(i => i.Creator).AsQueryable();
-
-    //        if (!string.IsNullOrWhiteSpace(category) && category.ToLower() != "all")
-    //            query = query.Where(x => x.Category!.CategoryName == category);
-
-    //        if (!string.IsNullOrEmpty(searchQuery))
-    //            query = query.Where(x => x.Title.Contains(searchQuery) || x.Creator!.CreatorName.Contains(searchQuery));
-
-    //        query = query.OrderByDescending(x => x.LastUpdated);
-
-    //        var coursesList = await query.ToListAsync();
-    //        var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(coursesList);
-    //        #endregion
-
-    //        var response = new CourseResultDto
-    //        {
-    //            Succeeded = true,
-    //            TotalItems = await query.CountAsync()
-    //        };          
-    //        response.TotalPages = (int)Math.Ceiling(response.TotalItems / (double)pageSize);
-    //        response.Courses = CourseFactory.Create(await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync());
-
-    //        return Ok(response);
-    //    }
-    //    catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
-    //    return StatusCode(StatusCodes.Status500InternalServerError);
-    //}
-
-
     [HttpGet]
     public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "", int pageNumber = 1, int pageSize = 6)
     {
@@ -111,37 +76,6 @@ public class CoursesController : ControllerBase
         }
     }
 
-
-
-    //[HttpGet]
-    //public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "")
-    //{
-    //    try
-    //    {
-    //        var query = _context.Courses.Include(i => i.Category).Include(i => i.Details).Include(i => i.Creator).AsQueryable();
-
-    //        if (!string.IsNullOrWhiteSpace(category) && category.ToLower() != "all")
-    //            query = query.Where(x => x.Category!.CategoryName == category);
-
-    //        if (!string.IsNullOrEmpty(searchQuery))
-    //            query = query.Where(x => x.Title.Contains(searchQuery) || x.Creator!.CreatorName.Contains(searchQuery));
-
-    //        query = query.OrderByDescending(x => x.LastUpdated);
-
-    //        var coursesList = await query.ToListAsync();
-    //        var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(coursesList);
-
-    //        var response = new CourseResultDto
-    //        {
-    //            Succeeded = true,
-    //            Courses = courseDtos
-    //        };
-
-    //        return Ok(response);
-    //    }
-    //    catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
-    //    return StatusCode(StatusCodes.Status500InternalServerError);
-    //}
     #endregion
 
     #region Get One
