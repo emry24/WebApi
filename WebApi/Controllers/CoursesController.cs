@@ -39,7 +39,7 @@ public class CoursesController : ControllerBase
     #region Get All
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "")
+    public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "", int pageNumber = 1, int pageSize = 6)
     {
         try
         {
@@ -53,20 +53,29 @@ public class CoursesController : ControllerBase
 
             query = query.OrderByDescending(x => x.LastUpdated);
 
-            var coursesList = await query.ToListAsync();
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var coursesList = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(coursesList);
 
             var response = new CourseResultDto
             {
                 Succeeded = true,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
                 Courses = courseDtos
             };
 
             return Ok(response);
         }
-        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
-        return StatusCode(StatusCodes.Status500InternalServerError);
+        catch (Exception ex)
+        {
+            Debug.WriteLine("ERROR :: " + ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
+
     #endregion
 
     #region Get One
