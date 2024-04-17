@@ -5,7 +5,7 @@ namespace Infrastructure.Contexts;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-
+    public virtual DbSet<ContactEntity> Contacts { get; set; }
     public virtual DbSet<SubscriberEntity> Subscribers { get; set; }
     public virtual DbSet<CreatorEntity> Creators { get; set; }
     public virtual DbSet<CourseEntity> Courses { get; set; }
