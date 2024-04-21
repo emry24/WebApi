@@ -36,26 +36,6 @@ public class CoursesController(HttpClient http, IMapper mapper) : Controller
     }
 
 
-    //[HttpPost]
-    //public async Task<IActionResult> Create(CourseRegistrationFormViewModel viewModel)
-    //{
-    //    if (ModelState.IsValid)
-    //    {
-    //        using var http = new HttpClient();
-
-    //        var json = JsonConvert.SerializeObject(viewModel);
-    //        using var content = new StringContent(json, Encoding.UTF8, "application/json");
-    //        var response = await http.PostAsync("https://localhost:7279/api/courses", content);
-    //        if (response.IsSuccessStatusCode)
-    //        {
-    //            return RedirectToAction("Index", "Courses");
-    //        }
-    //    }
-
-    //    return View(viewModel);
-    //}
-
-
     [HttpPost]
     public async Task<IActionResult> Create(CourseModel courseModel)
     {
