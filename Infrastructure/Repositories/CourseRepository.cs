@@ -30,24 +30,5 @@ namespace Infrastructure.Repositories
             catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
             return null!;
         }
-
-        //public override async Task<IEnumerable<CourseEntity>> GetAllAsync()
-        //{
-        //    try
-        //    {
-        //        var entities = await _context.Courses
-        //        .Include(x => x.Category).AsQueryable()
-        //        .Include(x => x.Creator)
-        //        .Include(x => x.Details)
-        //        .OrderByDescending(x => x.LastUpdated)
-        //        .ToListAsync();
-        //        if (entities != null)
-        //        {
-        //            return entities;
-        //        }
-        //    }
-        //    catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
-        //    return null!;
-        //}
     }
 }

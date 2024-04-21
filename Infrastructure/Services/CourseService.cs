@@ -41,106 +41,42 @@ public class CourseService(CourseRepository courseRepository, CreatorRepository 
     #endregion
 
     #region Create
-    public async Task<CourseDto> CreateCourse(CourseRegistrationDto courseRegistrationDto)
+
+    public async Task<CourseDto> CreateCourse(CourseDto courseDto)
     {
         try
         {
-            var existingCreator = await _creatorRepository.GetByNameAsync(courseRegistrationDto.CreatorName);
+            var existingCreator = await _creatorRepository.GetByNameAsync(courseDto.Creator!.CreatorName);
+
             if (existingCreator == null)
             {
-                var creatorEntity = new CreatorEntity
-                {
-                    CreatorName = courseRegistrationDto.CreatorName,
-                    CreatorBio = courseRegistrationDto.CreatorBio,
-                    CreatorImage = courseRegistrationDto.CreatorImage,
-                    YoutubeSubscribers = courseRegistrationDto.YoutubeSubscribers,
-                    FacebookFollowers = courseRegistrationDto.FacebookFollowers,
-                };
-
-                await _creatorRepository.CreateAsync(creatorEntity);
-                existingCreator = creatorEntity;
+                existingCreator = _mapper.Map<CreatorEntity>(courseDto.Creator);
+                await _creatorRepository.CreateAsync(existingCreator);
             }
 
-            var existingCategory = await _categoryRepository.GetByNameAsync(courseRegistrationDto.CategoryName);
-            if (existingCategory == null)
-            {
-                var categoryEntity = new CategoryEntity
-                {
-                    CategoryName = courseRegistrationDto.CategoryName,
-                };
+            var existingCategory = await _categoryRepository.GetByNameAsync(courseDto.Category!.CategoryName);
 
-                await _categoryRepository.CreateAsync(categoryEntity);
-                existingCategory = categoryEntity;
+            if (existingCategory == null && !string.IsNullOrEmpty(courseDto.Category!.CategoryName))
+            {
+                var newCategoryEntity = new CategoryEntity { CategoryName = courseDto.Category!.CategoryName };
+                await _categoryRepository.CreateAsync(newCategoryEntity);
+                existingCategory = newCategoryEntity;
             }
 
-            var courseDetailsEntity = new CourseDetailsEntity
-            {
-                NumberOfArticles = courseRegistrationDto.NumberOfArticles,
-                NumberOfResources = courseRegistrationDto.NumberOfResources,
-                LifetimeAccess = courseRegistrationDto.LifetimeAccess,
-                Certificate = courseRegistrationDto.Certificate,
+            var courseEntity = _mapper.Map<CourseEntity>(courseDto);
 
-                Price = courseRegistrationDto.Price,
-                DiscountedPrice = courseRegistrationDto.DiscountedPrice,
-            };
-
-            await _courseDetailsRepository.CreateAsync(courseDetailsEntity);
-
-            var courseEntity = new CourseEntity
-            {
-                Title = courseRegistrationDto.Title,
-                Ingress = courseRegistrationDto.Ingress,
-                IsBestseller = courseRegistrationDto.IsBestseller,
-                Reviews = courseRegistrationDto.Reviews,
-                RatingImage = courseRegistrationDto.RatingImage,
-                LikesInProcent = courseRegistrationDto.LikesInProcent,
-                LikesInNumbers = courseRegistrationDto.LikesInNumbers,
-                DurationHours = courseRegistrationDto.DurationHours,
-                Description = courseRegistrationDto.Description,
-                Category = existingCategory,
-                Creator = existingCreator,
-                Details = courseDetailsEntity,
-            };
+            courseEntity.Creator = existingCreator;
+            courseEntity.Category = existingCategory;
 
             var createdCourseEntity = await _courseRepository.CreateAsync(courseEntity);
 
-            //var learningDetailsEntity = new LearningDetailsEntity
-            //{
-            //    LearningsDescription = form.LearningsDescription,
-            //};
-            //_context.LearningDetails.Add(learningDetailsEntity);
-
-
-            //var programDetailsEntity = new ProgramDetailsEntity
-            //{
-            //    ProgramDetailsNumber = form.ProgramDetailsNumber,
-            //    ProgramDetailsTitle = form.ProgramDetailsTitle,
-            //    ProgramDetailsDescription = form.ProgramDetailsDescription,
-            //};
-            //_context.ProgramDetails.Add(programDetailsEntity);
-
-            var createdCourseDto = new CourseDto
-            {
-                Title = createdCourseEntity.Title,
-                Ingress = createdCourseEntity.Ingress,
-                IsBestseller = createdCourseEntity.IsBestseller,
-                Reviews = createdCourseEntity.Reviews,
-                RatingImage = createdCourseEntity.RatingImage,
-                LikesInProcent = createdCourseEntity.LikesInProcent,
-                LikesInNumbers = createdCourseEntity.LikesInNumbers,
-                DurationHours = createdCourseEntity.DurationHours,
-                Description = createdCourseEntity.Description,
-                Category = _mapper.Map<CategoryDto>(existingCategory),
-                Creator = _mapper.Map<CreatorDto>(existingCreator),
-                Details = _mapper.Map<CourseDetailsDto>(courseDetailsEntity)
-            };
-
-            return createdCourseDto;
+            return _mapper.Map<CourseDto>(createdCourseEntity);
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
-
     }
+
+
     #endregion
 
     #region Update

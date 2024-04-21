@@ -2,6 +2,7 @@
 using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Text;
 using WebApp.Models;
 
@@ -11,18 +12,7 @@ namespace WebApp.Controllers;
 public class CoursesController(HttpClient http, IMapper mapper) : Controller
 {
     private readonly HttpClient _http = http;
-    private readonly IMapper _mapper = mapper;  //ta bort
-
-    //public async Task<IActionResult> Index()
-    //{
-    //    var viewModel = new CourseViewModel();
-
-    //    using var http = new HttpClient();
-    //    var response = await http.GetAsync("https://localhost:7279/api/courses");
-    //    viewModel.Courses = JsonConvert.DeserializeObject<IEnumerable<CourseModel>>(await response.Content.ReadAsStringAsync())!;
-
-    //    return View(viewModel);
-    //}
+    private readonly IMapper _mapper = mapper; 
 
     public async Task<IActionResult> Index()
     {
@@ -46,23 +36,44 @@ public class CoursesController(HttpClient http, IMapper mapper) : Controller
     }
 
 
+    //[HttpPost]
+    //public async Task<IActionResult> Create(CourseRegistrationFormViewModel viewModel)
+    //{
+    //    if (ModelState.IsValid)
+    //    {
+    //        using var http = new HttpClient();
+
+    //        var json = JsonConvert.SerializeObject(viewModel);
+    //        using var content = new StringContent(json, Encoding.UTF8, "application/json");
+    //        var response = await http.PostAsync("https://localhost:7279/api/courses", content);
+    //        if (response.IsSuccessStatusCode)
+    //        {
+    //            return RedirectToAction("Index", "Courses");
+    //        }
+    //    }
+
+    //    return View(viewModel);
+    //}
+
+
     [HttpPost]
-    public async Task<IActionResult> Create(CourseRegistrationFormViewModel viewModel)
+    public async Task<IActionResult> Create(CourseModel courseModel)
     {
+
         if (ModelState.IsValid)
         {
             using var http = new HttpClient();
 
-            var json = JsonConvert.SerializeObject(viewModel);
+            var json = JsonConvert.SerializeObject(courseModel);
             using var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await http.PostAsync("https://localhost:7279/api/courses", content);
+            var response = await _http.PostAsync("https://localhost:7279/api/courses", content);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Courses");
             }
         }
 
-        return View(viewModel);
+        return View(courseModel);
     }
 
 
@@ -70,15 +81,6 @@ public class CoursesController(HttpClient http, IMapper mapper) : Controller
     [Route("/details")]
     public async Task<IActionResult> Details(string id)
     {
-        //using var http = new HttpClient();
-        //var response = await _http.GetAsync($"https://localhost:7279/api/courses/{id}");
-
-        //var json = await response.Content.ReadAsStringAsync();
-        //var courseDto = JsonConvert.DeserializeObject<CourseDto>(json);
-
-        //var courseViewModel = _mapper.Map<CourseModel>(courseDto);
-
-        //return View(courseViewModel);
 
         var response = await _http.GetAsync($"https://localhost:7279/api/courses/{id}");
         var json = await response.Content.ReadAsStringAsync();
@@ -131,6 +133,4 @@ public class CoursesController(HttpClient http, IMapper mapper) : Controller
 
         return View(courseModel);
     }
-
-
 }
