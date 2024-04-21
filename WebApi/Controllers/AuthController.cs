@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using WebApi.Filters;
@@ -9,11 +10,13 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[UseApiKey]
+
 public class AuthController(IConfiguration configuration) : ControllerBase
 {
     private readonly IConfiguration _configuration = configuration;
 
-    //[UseApiKey]
+    
 
     [HttpPost]
     public IActionResult GetToken()
@@ -33,7 +36,7 @@ public class AuthController(IConfiguration configuration) : ControllerBase
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return Ok(tokenHandler.WriteToken(token));
         }
-        catch (Exception ex) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return Unauthorized();
     }
 }

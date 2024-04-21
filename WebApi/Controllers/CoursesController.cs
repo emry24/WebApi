@@ -7,7 +7,6 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using WebApi.Filters;
@@ -17,8 +16,8 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[UseApiKey]
-//[Authorize]
+[UseApiKey]
+[Authorize]
 
 public class CoursesController : ControllerBase
 {
@@ -37,7 +36,7 @@ public class CoursesController : ControllerBase
 
 
     #region Get All
-
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetAllCourses(string category = "", string searchQuery = "", int pageNumber = 1, int pageSize = 6)
     {
@@ -80,6 +79,7 @@ public class CoursesController : ControllerBase
 
     #region Get One
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOne(int id)
     {

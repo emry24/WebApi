@@ -10,7 +10,7 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[UseApiKey]
+[UseApiKey]
 public class SubscribersController(AppDbContext context) : Controller
 {
 
