@@ -1,5 +1,5 @@
 ﻿@using WebApp.Models
-@model CourseRegistrationFormViewModel
+@model CourseModel
 
 <section id="create-course">
     <div class="container">
@@ -41,42 +41,45 @@
                 <input asp-for="Description" />
             </div>
             <div class="input-group">
-                <label asp-for="NumberOfArticles"></label>
-                <input asp-for="NumberOfArticles" />
+                <label asp-for="Details!.NumberOfArticles"></label>
+                <input asp-for="Details!.NumberOfArticles" />
             </div>
             <div class="input-group">
-                <label asp-for="NumberOfResources"></label>
-                <input asp-for="NumberOfResources" />
+                <label asp-for="Details!.NumberOfResources"></label>
+                <input asp-for="Details!.NumberOfResources" />
             </div>
             <div class="checkbox-group">
-                <label asp-for="LifetimeAccess"></label>
-                <input asp-for="LifetimeAccess" />
+                <label asp-for="Details!.LifetimeAccess"></label>
+                <input asp-for="Details!.LifetimeAccess" />
             </div>
             <div class="checkbox-group">
-                <label asp-for="Certificate"></label>
-                <input asp-for="Certificate" />
+                <label asp-for="Details!.Certificate"></label>
+                <input asp-for="Details!.Certificate" />
             </div>
             <div class="input-group">
-                <label asp-for="Price"></label>
-                <input asp-for="Price" />
+                <label asp-for="Details!.Price"></label>
+                <input asp-for="Details!.Price" />
             </div>
             <div class="input-group">
-                <label asp-for="DiscountedPrice"></label>
-                <input asp-for="DiscountedPrice" />
+                <label asp-for="Details!.DiscountedPrice"></label>
+                <input asp-for="Details!.DiscountedPrice" />
             </div>
-            
-@*             //public string LearningsDescription { get; set; } = null!;
-            //public int ProgramDetailsNumber { get; set; }
-            //public string ProgramDetailsTitle { get; set; } = null!;
-            //public string? ProgramDetailsDescription { get; set; } *@
 
-@*             <div class="input-group">
+            <div class="input-group">
                 <label asp-for="LearningDetails"></label>
                 <div id="learning-details-container">
-                    <div class="learning-detail">
-                        <input type="text" asp-for="LearningDetails![0].Description" />
-                        <button type="button" class="btn btn-sm btn-danger" onclick="removeLearningDetail(0)">Remove</button>
-                    </div>
+                    @if (Model.LearningDetails != null)
+                    {
+                        int index = 0;
+                        foreach (var detail in Model.LearningDetails)
+                        {
+                            <div class="learning-detail">
+                                <input type="text" name="LearningDetails[@index].LearningsDescription" value="@detail.LearningsDescription" />
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeLearningDetail(@index)">Remove</button>
+                            </div>
+                            index++;
+                        }
+                    }
                 </div>
                 <button type="button" class="btn btn-sm btn-primary" onclick="addLearningDetail()">Add Learning Detail</button>
             </div>
@@ -84,44 +87,50 @@
             <div class="input-group">
                 <label asp-for="ProgramDetails"></label>
                 <div id="program-details-container">
-                    <div class="program-detail">
-                        <p>Number</p>
-                        <input type="number" asp-for="ProgramDetails![0].Number" />
-                        <p>Title</p>
-                        <input type="text" asp-for="ProgramDetails![0].Title" />
-                        <p>Description</p>
-                        <input type="text" asp-for="ProgramDetails![0].Description" />
-                        <button type="button" class="btn btn-sm btn-danger" onclick="removeProgramDetail(0)">Remove</button>
-                    </div>
+                    @if (Model.ProgramDetails != null)
+                    {
+                        int index = 0;
+                        foreach (var detail in Model.ProgramDetails)
+                        {
+                            <div class="program-detail">
+                                <p>Number</p>
+                                <input type="number" name="ProgramDetails[@index].ProgramDetailsNumber" value="@detail.ProgramDetailsNumber" />
+                                <p>Title</p>
+                                <input type="text" name="ProgramDetails[@index].ProgramDetailsTitle" value="@detail.ProgramDetailsTitle" />
+                                <p>Description</p>
+                                <input type="text" name="ProgramDetails[@index].ProgramDetailsDescription" value="@detail.ProgramDetailsDescription" />
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeProgramDetail(@index)">Remove</button>
+                            </div>
+                            index++;
+                        }
+                    }
                 </div>
                 <button type="button" class="btn btn-sm btn-primary" onclick="addProgramDetail()">Add Program Detail</button>
-            </div> *@
-
-
+            </div>
 
             <div class="input-group">
-                <label asp-for="CategoryName"></label>
-                <input asp-for="CategoryName" />
+                <label asp-for="Category!.CategoryName"></label>
+                <input asp-for="Category!.CategoryName" />
             </div>
             <div class="input-group">
-                <label asp-for="CreatorName"></label>
-                <input asp-for="CreatorName" />
+                <label asp-for="Creator!.CreatorName"></label>
+                <input asp-for="Creator!.CreatorName" />
             </div>
             <div class="input-group">
-                <label asp-for="CreatorBio"></label>
-                <input asp-for="CreatorBio" />
+                <label asp-for="Creator!.CreatorBio"></label>
+                <input asp-for="Creator!.CreatorBio" />
             </div>
             <div class="input-group">
-                <label asp-for="YoutubeSubscribers"></label>
-                <input asp-for="YoutubeSubscribers" />
+                <label asp-for="Creator!.YoutubeSubscribers"></label>
+                <input asp-for="Creator!.YoutubeSubscribers" />
             </div>
             <div class="input-group">
-                <label asp-for="FacebookFollowers"></label>
-                <input asp-for="FacebookFollowers" />
+                <label asp-for="Creator!.FacebookFollowers"></label>
+                <input asp-for="Creator!.FacebookFollowers" />
             </div>
             <div class="input-group">
-                <label asp-for="CreatorImage"></label>
-                <input asp-for="CreatorImage" />
+                <label asp-for="Creator!.CreatorImage"></label>
+                <input asp-for="Creator!.CreatorImage" />
             </div>
 
             <button class="btn btn-sm btn-primary" type="submit">CREATE</button>

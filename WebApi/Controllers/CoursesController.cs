@@ -85,14 +85,6 @@ public class CoursesController : ControllerBase
     {
         try
         {
-            //var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
-            //if (course != null)
-            //{
-            //    return Ok(course);
-            //}
-
-            //return NotFound();
-
             var courses = await _courseService.GetCourseById(x => x.CourseId == id);
 
             return Ok(courses);
@@ -104,14 +96,16 @@ public class CoursesController : ControllerBase
 
     #region Create
 
+    //[Authorize]
+
     [HttpPost]
-    public async Task<IActionResult> CreateCourse(CourseRegistrationDto courseRegistrationDto)
+    public async Task<IActionResult> CreateCourse(CourseDto courseDto)
     {
         try
         {
             if (ModelState.IsValid)
             {
-                var createdCourse = await _courseService.CreateCourse(courseRegistrationDto);
+                var createdCourse = await _courseService.CreateCourse(courseDto);
                 return Ok(createdCourse);
             }
 
@@ -120,9 +114,12 @@ public class CoursesController : ControllerBase
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+
     #endregion
 
     #region Update
+
+    //[Authorize]
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCourse(int id, CourseDto updatedCourseDto)

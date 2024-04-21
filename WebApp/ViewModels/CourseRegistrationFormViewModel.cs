@@ -77,26 +77,5 @@ public class CourseRegistrationFormViewModel
     //public List<ProgramDetailFormViewModel>? ProgramDetails { get; set; }
 }
 
-//public class LearningDetailFormViewModel
-//{
-//    [Required]
-//    [Display(Name = "Description")]
-//    public string Description { get; set; } = null!;
-//}
-
-//public class ProgramDetailFormViewModel
-//{
-//    [Required]
-//    [Display(Name = "Number")]
-//    public int Number { get; set; }
-
-//    [Required]
-//    [Display(Name = "Title")]
-//    public string Title { get; set; } = null!;
-
-//    [Display(Name = "Description")]
-//    public string? Description { get; set; }
-//}
-
 
 
